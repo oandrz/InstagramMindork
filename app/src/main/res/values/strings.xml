@@ -8,4 +8,8 @@
     </string>
     <string name="server_connection_error">Not able to connect, please retry again</string>
     <string name="network_login_again">Please log in again</string>
+
+
+    <!--Image View-->
+    <string name="logo_image_content_description">logo</string>
 </resources>
