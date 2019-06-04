@@ -12,4 +12,11 @@
 
     <!--Image View-->
     <string name="logo_image_content_description">logo</string>
+
+    <!--Login Screen-->
+    <string name="login_button_text">Login</string>
+    <string name="general_label_text">OR</string>
+    <string name="login_label_signupnav_text">Sign Up with Email</string>
+    <string name="login_hint_email_text">Enter your Email</string>
+    <string name="login_hint_password_text">Enter your password</string>
 </resources>

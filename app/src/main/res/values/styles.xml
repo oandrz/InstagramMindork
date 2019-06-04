@@ -128,4 +128,7 @@
         <item name="android:minHeight">?attr/actionBarSize</item>
     </style>
 
+    <style name="EditTextDefaultStyle">
+
+    </style>
 </resources>
