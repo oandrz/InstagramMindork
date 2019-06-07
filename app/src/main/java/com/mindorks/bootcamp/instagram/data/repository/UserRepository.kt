@@ -5,6 +5,7 @@ import com.mindorks.bootcamp.instagram.data.local.prefs.UserPreferences
 import com.mindorks.bootcamp.instagram.data.model.User
 import com.mindorks.bootcamp.instagram.data.remote.NetworkService
 import com.mindorks.bootcamp.instagram.data.remote.request.LoginRequest
+import com.mindorks.bootcamp.instagram.data.remote.request.SignupRequest
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -50,4 +51,9 @@ class UserRepository @Inject constructor(
                 saveCurrentUser(user)
                 user
             }
+
+    fun doSignup(email: String, password: String, name: String): Single<User> =
+        networkService
+            .doSignUpCall(SignupRequest(email, password, name))
+            .map { User(it.userId, it.userName, it.userEmail, it.accessToken) }
 }
