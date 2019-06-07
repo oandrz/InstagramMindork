@@ -26,6 +26,7 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
         }
 
         et_email.addClearDrawable()
+        et_password.addClearDrawable()
 
         tv_signup_navigation.setOnClickListener {
         }
@@ -34,13 +35,30 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
     override fun setupObservers() {
         super.setupObservers()
         viewModel.getUser().observe(this, Observer {
-            Toaster.show(this, "success")
+            it?.let {
+                Toaster.show(this, "success")
+            }
+        })
+        viewModel.isAuthenticating().observe(this, Observer {
+            if (it) {
+                freezeUI(true)
+                Toaster.show(this, "loading")
+            } else {
+                freezeUI(false)
+            }
         })
     }
 
     override fun onStop() {
         super.onStop()
         et_email.removeClearDrawable()
+        et_password.removeClearDrawable()
+    }
+
+    private fun freezeUI(isEnabled: Boolean) {
+        et_email.isEnabled = !isEnabled
+        et_password.isEnabled = !isEnabled
+        btn_login.isEnabled = !isEnabled
     }
 
     companion object {

@@ -8,6 +8,7 @@ import com.mindorks.bootcamp.instagram.data.model.User
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseViewModel
 import com.mindorks.bootcamp.instagram.utils.common.Resource
+import com.mindorks.bootcamp.instagram.utils.common.Status
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
@@ -24,6 +25,9 @@ class LoginViewModel(
     fun getUser(): LiveData<User> =
         Transformations.map(userLiveData) { it.data }
 
+    fun isAuthenticating(): LiveData<Boolean> =
+        Transformations.map(userLiveData) { it.status == Status.LOADING }
+
     override fun onCreate() {
 
     }
@@ -35,8 +39,10 @@ class LoginViewModel(
                     R.string.login_message_formempty_text
                 )
             )
+            return
         }
-        if (userLiveData.value == null && checkInternetConnectionWithMessage()) {
+        if (checkInternetConnectionWithMessage()) {
+            userLiveData.postValue(Resource.loading())
             compositeDisposable.add(
                 userRepository
                     .doLogin(email, password)
