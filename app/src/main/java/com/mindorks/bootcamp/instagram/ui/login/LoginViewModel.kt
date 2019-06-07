@@ -1,6 +1,9 @@
 package com.mindorks.bootcamp.instagram.ui.login
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.data.model.User
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseViewModel
@@ -16,10 +19,38 @@ class LoginViewModel(
     val userRepository: UserRepository
 ) : BaseViewModel(schedulerProvider, compositeDiposable, networkHelper) {
 
-    val userLiveData: MutableLiveData<Resource<User>> = MutableLiveData()
+    private val userLiveData: MutableLiveData<Resource<User>> = MutableLiveData()
+
+    fun getUser(): LiveData<User> =
+        Transformations.map(userLiveData) { it.data }
 
     override fun onCreate() {
 
     }
 
+    fun login(email: String, password: String) {
+        if (email.isEmpty() || password.isEmpty()) {
+            messageStringId.postValue(
+                Resource.error(
+                    R.string.login_message_formempty_text
+                )
+            )
+        }
+        if (userLiveData.value == null && checkInternetConnectionWithMessage()) {
+            compositeDisposable.add(
+                userRepository
+                    .doLogin(email, password)
+                    .subscribeOn(schedulerProvider.io())
+                    .subscribe(
+                        {
+                            userLiveData.postValue(Resource.success(it))
+                        },
+                        {
+                            handleNetworkError(it)
+                            userLiveData.postValue(Resource.error())
+                        }
+                    )
+            )
+        }
+    }
 }

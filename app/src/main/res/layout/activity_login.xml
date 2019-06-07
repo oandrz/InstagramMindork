@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/space_30dp">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusableInTouchMode="true"
+                android:padding="@dimen/space_30dp">
 
     <EditText
         android:id="@+id/et_password"
@@ -69,13 +70,14 @@
     </FrameLayout>
 
     <TextView
-        style="@style/AppTheme.Subtitle1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/divider"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/space_16dp"
-        android:text="@string/login_label_signupnav_text"
-        android:textColor="@color/colorSecondary"
-        android:textStyle="bold" />
+            android:id="@+id/tv_signup_navigation"
+            style="@style/AppTheme.Subtitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/space_16dp"
+            android:text="@string/login_label_signupnav_text"
+            android:textColor="@color/colorSecondary"
+            android:textStyle="bold" />
 </RelativeLayout>

@@ -31,7 +31,6 @@ class UserRepository @Inject constructor(
     }
 
     fun getCurrentUser(): User? {
-
         val userId = userPreferences.getUserId()
         val userName = userPreferences.getUserName()
         val userEmail = userPreferences.getUserEmail()
@@ -46,5 +45,9 @@ class UserRepository @Inject constructor(
     fun doLogin(email: String, password: String): Single<User> =
         networkService
             .doLoginCall(LoginRequest(email, password))
-            .map { User(it.userId, it.userName, it.userEmail, it.accessToken) }
+            .map {
+                val user = User(it.userId, it.userName, it.userEmail, it.accessToken)
+                saveCurrentUser(user)
+                user
+            }
 }
