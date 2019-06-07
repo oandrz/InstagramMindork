@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,36 +8,50 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusableInTouchMode="true"
+        android:orientation="vertical"
         android:padding="@dimen/space_30dp">
-
-        <EditText
-            android:id="@+id/et_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:hint="@string/login_hint_password_text"
-            android:inputType="textPassword"
-            android:paddingStart="@dimen/space_16dp"
-            android:paddingEnd="@dimen/space_16dp" />
 
         <EditText
             android:id="@+id/et_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@id/et_password"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/space_16dp"
             android:layout_marginBottom="@dimen/space_16dp"
             android:hint="@string/login_hint_email_text"
             android:inputType="textEmailAddress"
             android:paddingStart="@dimen/space_16dp"
             android:paddingEnd="@dimen/space_16dp" />
 
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/et_email"
+            android:layout_marginTop="@dimen/space_42dp"
+            android:hint="@string/signup_hint_name_text"
+            android:inputType="text"
+            android:paddingStart="@dimen/space_16dp"
+            android:paddingEnd="@dimen/space_16dp" />
+
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/logo_image_height"
-            android:layout_above="@id/et_email"
-            android:layout_marginBottom="@dimen/space_42dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/et_name"
+            android:layout_centerHorizontal="true"
             android:contentDescription="@string/logo_image_content_description"
-            android:src="@drawable/instagram_logo" />
+            android:src="@drawable/ic_profile_signup" />
+
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_email"
+            android:layout_marginBottom="@dimen/space_16dp"
+            android:hint="@string/login_hint_password_text"
+            android:inputType="textPassword"
+            android:paddingStart="@dimen/space_16dp"
+            android:paddingEnd="@dimen/space_16dp" />
 
         <Button
             android:id="@+id/btn_login"
@@ -46,9 +59,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/et_password"
-            android:layout_marginTop="@dimen/space_16dp"
             android:backgroundTint="@color/colorSecondary"
-            android:text="@string/login_button_text" />
+            android:text="@string/signup_button_signup_text" />
 
         <FrameLayout
             android:id="@+id/divider"
@@ -81,8 +93,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/divider"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/space_16dp"
-            android:text="@string/login_label_signupnav_text"
+            android:layout_marginTop="@dimen/space_24dp"
+            android:text="@string/signup_label_loginnavigation_text"
             android:textColor="@color/colorSecondary"
             android:textStyle="bold" />
     </RelativeLayout>

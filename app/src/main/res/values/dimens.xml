@@ -2,9 +2,9 @@
 <resources>
     <dimen name="logo_image_height">58dp</dimen>
 
-
     <!--space-->
     <dimen name="space_16dp">16dp</dimen>
+    <dimen name="space_24dp">24dp</dimen>
     <dimen name="space_30dp">30dp</dimen>
     <dimen name="space_42dp">42dp</dimen>
     <dimen name="space_45dp">45dp</dimen>

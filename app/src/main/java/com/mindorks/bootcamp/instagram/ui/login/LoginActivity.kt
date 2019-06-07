@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.di.component.ActivityComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseActivity
+import com.mindorks.bootcamp.instagram.ui.signup.SignupActivity
 import com.mindorks.bootcamp.instagram.utils.component.addClearDrawable
 import com.mindorks.bootcamp.instagram.utils.component.removeClearDrawable
 import com.mindorks.bootcamp.instagram.utils.display.Toaster
@@ -29,6 +30,7 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
         et_password.addClearDrawable()
 
         tv_signup_navigation.setOnClickListener {
+            startActivity(SignupActivity.getIntent(this))
         }
     }
 

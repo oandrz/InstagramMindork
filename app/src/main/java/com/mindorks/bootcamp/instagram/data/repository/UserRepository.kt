@@ -55,5 +55,9 @@ class UserRepository @Inject constructor(
     fun doSignup(email: String, password: String, name: String): Single<User> =
         networkService
             .doSignUpCall(SignupRequest(email, password, name))
-            .map { User(it.userId, it.userName, it.userEmail, it.accessToken) }
+                .map {
+                    val user = User(it.userId, it.userName, it.userEmail, it.accessToken)
+                    saveCurrentUser(user)
+                    user
+                }
 }

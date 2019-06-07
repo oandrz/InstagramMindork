@@ -24,4 +24,9 @@
 
     <string name="login_hint_email_text">Enter your Email</string>
     <string name="login_hint_password_text">Enter your password</string>
+
+    <!--Sign Up Screen-->
+    <string name="signup_hint_name_text">Enter your full name</string>
+    <string name="signup_button_signup_text">Sign up</string>
+    <string name="signup_label_loginnavigation_text">Login with Email</string>
 </resources>
