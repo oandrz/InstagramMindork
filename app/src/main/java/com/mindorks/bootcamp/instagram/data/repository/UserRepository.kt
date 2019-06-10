@@ -6,6 +6,7 @@ import com.mindorks.bootcamp.instagram.data.model.User
 import com.mindorks.bootcamp.instagram.data.remote.NetworkService
 import com.mindorks.bootcamp.instagram.data.remote.request.LoginRequest
 import com.mindorks.bootcamp.instagram.data.remote.request.SignupRequest
+import com.mindorks.bootcamp.instagram.data.remote.response.UserResponse
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -46,18 +47,15 @@ class UserRepository @Inject constructor(
     fun doLogin(email: String, password: String): Single<User> =
         networkService
             .doLoginCall(LoginRequest(email, password))
-            .map {
-                val user = User(it.userId, it.userName, it.userEmail, it.accessToken)
-                saveCurrentUser(user)
-                user
-            }
+            .map { mapUserResponseAndSaveIntoPref(it) }
 
-    fun doSignup(email: String, password: String, name: String): Single<User> =
+    fun doSignUp(email: String, password: String, name: String): Single<User> =
         networkService
             .doSignUpCall(SignupRequest(email, password, name))
-                .map {
-                    val user = User(it.userId, it.userName, it.userEmail, it.accessToken)
-                    saveCurrentUser(user)
-                    user
-                }
+            .map { mapUserResponseAndSaveIntoPref(it) }
+
+    private fun mapUserResponseAndSaveIntoPref(response: UserResponse): User =
+        User(response.userId, response.userName, response.userEmail, response.accessToken).also {
+            saveCurrentUser(user = it)
+        }
 }

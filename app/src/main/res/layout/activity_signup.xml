@@ -54,20 +54,20 @@
             android:paddingEnd="@dimen/space_16dp" />
 
         <Button
-            android:id="@+id/btn_login"
-            style="@style/AppTheme.Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/et_password"
-            android:backgroundTint="@color/colorSecondary"
-            android:text="@string/signup_button_signup_text" />
+                android:id="@+id/btn_signup"
+                style="@style/AppTheme.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_password"
+                android:backgroundTint="@color/colorSecondary"
+                android:text="@string/signup_button_signup_text" />
 
         <FrameLayout
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btn_login"
-            android:layout_marginTop="@dimen/space_42dp">
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btn_signup"
+                android:layout_marginTop="@dimen/space_42dp">
 
             <View
                 android:layout_width="match_parent"
@@ -87,15 +87,15 @@
         </FrameLayout>
 
         <TextView
-            android:id="@+id/tv_signup_navigation"
-            style="@style/AppTheme.Subtitle1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/divider"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/space_24dp"
-            android:text="@string/signup_label_loginnavigation_text"
-            android:textColor="@color/colorSecondary"
-            android:textStyle="bold" />
+                android:id="@+id/tv_login_navigation"
+                style="@style/AppTheme.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/divider"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/space_24dp"
+                android:text="@string/signup_label_loginnavigation_text"
+                android:textColor="@color/colorSecondary"
+                android:textStyle="bold" />
     </RelativeLayout>
 </ScrollView>

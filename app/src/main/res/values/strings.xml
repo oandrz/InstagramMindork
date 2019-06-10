@@ -29,4 +29,10 @@
     <string name="signup_hint_name_text">Enter your full name</string>
     <string name="signup_button_signup_text">Sign up</string>
     <string name="signup_label_loginnavigation_text">Login with Email</string>
+    <string name="signup_message_formempty_text">Fullname, Email or password is empty, please make sure you have filled
+        the form
+    </string>
+    <string name="signup_message_passwordlength_text">Password length insufficient, Your password should have at least 6
+        alphanumeric character
+    </string>
 </resources>

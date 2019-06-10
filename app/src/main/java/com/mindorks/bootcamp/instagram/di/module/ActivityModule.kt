@@ -7,7 +7,7 @@ import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseActivity
 import com.mindorks.bootcamp.instagram.ui.dummy.DummyViewModel
 import com.mindorks.bootcamp.instagram.ui.login.LoginViewModel
-import com.mindorks.bootcamp.instagram.ui.signup.SignupViewModel
+import com.mindorks.bootcamp.instagram.ui.signup.SignUpViewModel
 import com.mindorks.bootcamp.instagram.ui.splash.SplashViewModel
 import com.mindorks.bootcamp.instagram.utils.ViewModelProviderFactory
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
@@ -67,8 +67,8 @@ class ActivityModule(private val activity: BaseActivity<*>) {
             compositeDisposable: CompositeDisposable,
             networkHelper: NetworkHelper,
             userRepository: UserRepository
-    ): SignupViewModel = ViewModelProviders.of(
-            activity, ViewModelProviderFactory(SignupViewModel::class) {
-        SignupViewModel(schedulerProvider, compositeDisposable, networkHelper, userRepository)
-    }).get(SignupViewModel::class.java)
+    ): SignUpViewModel = ViewModelProviders.of(
+        activity, ViewModelProviderFactory(SignUpViewModel::class) {
+            SignUpViewModel(schedulerProvider, compositeDisposable, networkHelper, userRepository)
+        }).get(SignUpViewModel::class.java)
 }

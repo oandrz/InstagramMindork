@@ -1,4 +1,4 @@
-package com.mindorks.bootcamp.instagram.ui.login
+package com.mindorks.bootcamp.instagram.ui.signup
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,16 +14,16 @@ import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 
-class LoginViewModel(
+class SignUpViewModel(
     schedulerProvider: SchedulerProvider,
-    compositeDiposable: CompositeDisposable,
+    compositeDisposable: CompositeDisposable,
     networkHelper: NetworkHelper,
     private val userRepository: UserRepository
-) : BaseViewModel(schedulerProvider, compositeDiposable, networkHelper) {
+) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
+
+    val launchLogin: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
 
     private val userLiveData: MutableLiveData<Resource<User>> = MutableLiveData()
-
-    val launchSignUp: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
 
     fun getUser(): LiveData<User> =
         Transformations.map(userLiveData) { it.data }
@@ -35,22 +35,22 @@ class LoginViewModel(
 
     }
 
-    fun login(email: String, password: String) {
+    fun signUp(fullName: String, email: String, password: String) {
         ///TODO: Add Email Format Validation
-        if (email.isEmpty() || password.isEmpty()) {
-            messageStringId.postValue(
-                Resource.error(
-                    R.string.login_message_formempty_text
-                )
-            )
+        if (fullName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            messageStringId.postValue(Resource.error(R.string.signup_message_formempty_text))
+            return
+        } else if (password.length < 6) {
+            messageStringId.postValue(Resource.error(R.string.signup_message_passwordlength_text))
             return
         }
+
         if (checkInternetConnectionWithMessage()) {
             userLiveData.postValue(Resource.loading())
             ///TODO: Add hash algorithm for password
             compositeDisposable.add(
                 userRepository
-                    .doLogin(email, password)
+                    .doSignUp(email, password, fullName)
                     .subscribeOn(schedulerProvider.io())
                     .subscribe(
                         {
@@ -65,5 +65,6 @@ class LoginViewModel(
         }
     }
 
-    fun launchSignUp() = launchSignUp.postValue(Event(emptyMap()))
+    fun launchLogin() = launchLogin.postValue(Event(emptyMap()))
+
 }
