@@ -14,7 +14,7 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
 
     companion object {
         const val TAG = "SplashActivity"
-        private const val SPLASH_DISPLAY_LENGTH: Long = 3000
+        private const val SPLASH_DISPLAY_LENGTH: Long = 1000
     }
 
     override fun provideLayoutId(): Int = R.layout.activity_splash
@@ -31,11 +31,15 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
         // view model also provided the Bundle in the event that is needed for the Activity
         viewModel.launchDummy.observe(this, Observer<Event<Map<String, String>>> {
             it.getIfNotHandled()?.run {
-                //                startActivity(Intent(applicationContext, DummyActivity::class.java))
-
                 Handler().postDelayed({
                     startActivity(LoginActivity.getIntent(applicationContext))
                 }, SPLASH_DISPLAY_LENGTH)
+            }
+        })
+
+        viewModel.launchLogin.observe(this, Observer<Event<Map<String, String>>> {
+            it.getIfNotHandled()?.run {
+                ///TODO: Login to home activity
             }
         })
     }

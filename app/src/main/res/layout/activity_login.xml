@@ -36,7 +36,6 @@
             android:layout_above="@id/container_password"
             android:layout_marginBottom="@dimen/space_16dp"
             android:hint="@string/login_hint_email_text"
-            android:inputType="textEmailAddress"
             android:paddingStart="@dimen/space_16dp"
             android:paddingEnd="@dimen/space_16dp">
 
@@ -44,7 +43,7 @@
                 android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword" />
+                android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageView

@@ -41,7 +41,7 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
                 btn_login.text = getString(R.string.general_loading)
             } else {
                 btn_login.isEnabled = true
-                btn_login.text = getString(R.string.general_loading)
+                btn_login.text = getString(R.string.login_button_text)
             }
         })
 
