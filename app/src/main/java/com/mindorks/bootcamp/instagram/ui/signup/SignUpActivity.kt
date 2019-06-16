@@ -8,9 +8,9 @@ import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.di.component.ActivityComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseActivity
 import com.mindorks.bootcamp.instagram.ui.login.LoginActivity
+import com.mindorks.bootcamp.instagram.utils.common.Status
 import com.mindorks.bootcamp.instagram.utils.component.addClearDrawable
 import com.mindorks.bootcamp.instagram.utils.component.removeClearDrawable
-import com.mindorks.bootcamp.instagram.utils.display.Toaster
 import kotlinx.android.synthetic.main.activity_signup.*
 
 class SignUpActivity : BaseActivity<SignUpViewModel>() {
@@ -22,30 +22,51 @@ class SignUpActivity : BaseActivity<SignUpViewModel>() {
 
     override fun setupView(savedInstanceState: Bundle?) {
         et_email.addClearDrawable()
-        et_password.addClearDrawable()
         et_name.addClearDrawable()
+
         btn_signup.setOnClickListener {
-            viewModel.signUp(et_name.text.toString(), et_email.text.toString(), et_password.text.toString())
+            viewModel.signUp(
+                    et_name.text.toString(),
+                    et_email.text.toString(),
+                    et_password.text.toString()
+            )
         }
-        tv_login_navigation.setOnClickListener {
-            viewModel.launchLogin()
-        }
+
+        tv_login_navigation.setOnClickListener { viewModel.launchLogin() }
     }
 
     override fun setupObservers() {
         super.setupObservers()
-        viewModel.getUser().observe(this, Observer {
-            it?.let {
-                Toaster.show(this, "success")
+        viewModel.isFetchingApi().observe(this, Observer {
+            with(btn_signup) {
+                if (it) {
+                    isEnabled = false
+                    setText(R.string.general_loading)
+                } else {
+                    isEnabled = false
+                    setText(R.string.signup_button_signup_text)
+                }
             }
         })
 
-        viewModel.isFetchingApi().observe(this, Observer {
-            if (it) {
-                freezeUI(true)
-                Toaster.show(this, "loading")
-            } else {
-                freezeUI(false)
+        viewModel.nameValidation.observe(this, Observer {
+            when (it.status) {
+                Status.ERROR -> container_name.error = it.data?.run { getString(this) }
+                else -> container_password.isErrorEnabled = false
+            }
+        })
+
+        viewModel.emailValidation.observe(this, Observer {
+            when (it.status) {
+                Status.ERROR -> container_email.error = it.data?.run { getString(this) }
+                else -> container_password.isErrorEnabled = false
+            }
+        })
+
+        viewModel.passwordValidation.observe(this, Observer {
+            when (it.status) {
+                Status.ERROR -> container_password.error = it.data?.run { getString(this) }
+                else -> container_password.isErrorEnabled = false
             }
         })
 
@@ -55,20 +76,18 @@ class SignUpActivity : BaseActivity<SignUpViewModel>() {
                 finish()
             }
         })
+
+        viewModel.launchHome.observe(this, Observer {
+            it.getIfNotHandled()?.run {
+                ///TODO: Add intent to Home Activity
+            }
+        })
     }
 
     override fun onStop() {
         super.onStop()
         et_name.removeClearDrawable()
         et_email.removeClearDrawable()
-        et_password.removeClearDrawable()
-    }
-
-    private fun freezeUI(isEnabled: Boolean) {
-        et_email.isEnabled = !isEnabled
-        et_password.isEnabled = !isEnabled
-        et_name.isEnabled = !isEnabled
-        btn_signup.isEnabled = !isEnabled
     }
 
     companion object {

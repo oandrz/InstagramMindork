@@ -20,28 +20,72 @@ object Validator {
             ArrayList<Validation>().apply {
                 when {
                     email.isNullOrBlank() ->
-                        add(Validation(Validation.Field.EMAIL, Resource.error(R.string.login_error_emailEmpty)))
+                        add(Validation(Validation.Field.EMAIL,
+                                Resource.error(R.string.login_error_emailEmpty)))
                     !EMAIL_ADDRESS.matcher(email).matches() ->
-                        add(Validation(Validation.Field.EMAIL, Resource.error(R.string.login_error_invalidEmail)))
+                        add(Validation(Validation.Field.EMAIL,
+                                Resource.error(R.string.login_error_invalidEmail)))
                     else ->
-                        add(Validation(Validation.Field.EMAIL, Resource.success()))
+                        add(Validation(Validation.Field.EMAIL,
+                                Resource.success()))
                 }
 
                 when {
                     password.isNullOrBlank() ->
-                        add(Validation(Validation.Field.PASSWORD, Resource.error(R.string.login_error_passwordEmpty)))
+                        add(Validation(Validation.Field.PASSWORD,
+                                Resource.error(R.string.login_error_passwordEmpty)))
                     password.length < MIN_PASSWORD_LENGTH ->
-                        add(Validation(Validation.Field.PASSWORD, Resource.error(R.string.login_error_invalidpassword)))
+                        add(Validation(Validation.Field.PASSWORD,
+                                Resource.error(R.string.login_error_invalidPassword)))
                     else ->
-                        add(Validation(Validation.Field.PASSWORD, Resource.success()))
+                        add(Validation(Validation.Field.PASSWORD,
+                                Resource.success()))
                 }
             }
+
+    fun validateSignUpFields(name: String?, email: String?, password: String?): List<Validation> =
+            ArrayList<Validation>().apply {
+                when {
+                    name.isNullOrBlank() ->
+                        add(Validation(Validation.Field.NAME,
+                                Resource.error(R.string.signup_error_nameEmpty)))
+                    else ->
+                        add(Validation(Validation.Field.NAME,
+                                Resource.success()))
+                }
+
+                when {
+                    email.isNullOrBlank() ->
+                        add(Validation(Validation.Field.EMAIL,
+                                Resource.error(R.string.signup_error_emailEmpty)))
+                    !EMAIL_ADDRESS.matcher(email).matches() ->
+                        add(Validation(Validation.Field.EMAIL,
+                                Resource.error(R.string.signup_error_invalidEmail)))
+                    else ->
+                        add(Validation(Validation.Field.EMAIL,
+                                Resource.success()))
+                }
+
+                when {
+                    password.isNullOrBlank() ->
+                        add(Validation(Validation.Field.PASSWORD,
+                                Resource.error(R.string.signup_error_passwordEmpty)))
+                    password.length < MIN_PASSWORD_LENGTH ->
+                        add(Validation(Validation.Field.PASSWORD,
+                                Resource.error(R.string.signup_error_invalidPassword)))
+                    else ->
+                        add(Validation(Validation.Field.PASSWORD,
+                                Resource.success()))
+                }
+            }
+
 }
 
 data class Validation(val field: Field, val resource: Resource<Int>) {
 
     enum class Field {
         EMAIL,
-        PASSWORD
+        PASSWORD,
+        NAME
     }
 }

@@ -36,12 +36,14 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
     override fun setupObservers() {
         super.setupObservers()
         viewModel.isFetchingApi().observe(this, Observer {
-            if (it) {
-                btn_login.isEnabled = false
-                btn_login.text = getString(R.string.general_loading)
-            } else {
-                btn_login.isEnabled = true
-                btn_login.text = getString(R.string.login_button_text)
+            with(btn_login) {
+                if (it) {
+                    isEnabled = false
+                    text = getString(R.string.general_loading)
+                } else {
+                    isEnabled = true
+                    text = getString(R.string.login_button_text)
+                }
             }
         })
 

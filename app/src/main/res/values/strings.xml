@@ -20,9 +20,9 @@
     <string name="login_label_signupnav_text">Sign Up with Email</string>
 
     <string name="login_error_emailEmpty">Please fill your email field</string>
-    <string name="login_error_invalidEmail">Invalid email format, Please check your email again</string>
+    <string name="login_error_invalidEmail">Invalid email format</string>
     <string name="login_error_passwordEmpty">Please fill your password field</string>
-    <string name="login_error_invalidpassword">Should have at least 6 alphanumeric characterr</string>
+    <string name="login_error_invalidPassword">Should have at least 6 alphanumeric characters</string>
 
     <string name="login_hint_email_text">Enter your Email</string>
     <string name="login_hint_password_text">Enter your password</string>
@@ -31,10 +31,10 @@
     <string name="signup_hint_name_text">Enter your full name</string>
     <string name="signup_button_signup_text">Sign up</string>
     <string name="signup_label_loginnavigation_text">Login with Email</string>
-    <string name="signup_message_formempty_text">Fullname, Email or password is empty, please make sure you have filled
-        the form
-    </string>
-    <string name="signup_message_passwordlength_text">Password length insufficient, Your password should have at least 6
-        alphanumeric character
-    </string>
+
+    <string name="signup_error_emailEmpty">Please fill your email field</string>
+    <string name="signup_error_invalidEmail">Invalid email format, Please check your email again</string>
+    <string name="signup_error_passwordEmpty">Please fill your password field</string>
+    <string name="signup_error_invalidPassword">Should have at least 6 alphanumeric characterr</string>
+    <string name="signup_error_nameEmpty">Please fill your name field</string>
 </resources>
