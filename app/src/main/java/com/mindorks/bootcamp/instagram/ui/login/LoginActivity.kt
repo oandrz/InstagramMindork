@@ -8,9 +8,9 @@ import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.di.component.ActivityComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseActivity
 import com.mindorks.bootcamp.instagram.ui.signup.SignUpActivity
+import com.mindorks.bootcamp.instagram.utils.common.Status
 import com.mindorks.bootcamp.instagram.utils.component.addClearDrawable
 import com.mindorks.bootcamp.instagram.utils.component.removeClearDrawable
-import com.mindorks.bootcamp.instagram.utils.display.Toaster
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity<LoginViewModel>() {
@@ -27,7 +27,6 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
         }
 
         et_email.addClearDrawable()
-        et_password.addClearDrawable()
 
         tv_signup_navigation.setOnClickListener {
             viewModel.launchSignUp()
@@ -36,17 +35,27 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
 
     override fun setupObservers() {
         super.setupObservers()
-        viewModel.getUser().observe(this, Observer {
-            it?.let {
-                Toaster.show(this, "success")
-            }
-        })
         viewModel.isFetchingApi().observe(this, Observer {
             if (it) {
-                freezeUI(true)
-                Toaster.show(this, "loading")
+                btn_login.isEnabled = false
+                btn_login.text = getString(R.string.general_loading)
             } else {
-                freezeUI(false)
+                btn_login.isEnabled = true
+                btn_login.text = getString(R.string.general_loading)
+            }
+        })
+
+        viewModel.emailValidation.observe(this, Observer {
+            when (it.status) {
+                Status.ERROR -> container_email.error = it.data?.run { getString(this) }
+                else -> container_email.isErrorEnabled = false
+            }
+        })
+
+        viewModel.passwordValidation.observe(this, Observer {
+            when (it.status) {
+                Status.ERROR -> container_password.error = it.data?.run { getString(this) }
+                else -> container_password.isErrorEnabled = false
             }
         })
 
@@ -56,18 +65,17 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
                 finish()
             }
         })
+
+        viewModel.launchHome.observe(this, Observer {
+            it.getIfNotHandled()?.run {
+                ///TODO: Add intent to Home Activity
+            }
+        })
     }
 
     override fun onStop() {
         super.onStop()
         et_email.removeClearDrawable()
-        et_password.removeClearDrawable()
-    }
-
-    private fun freezeUI(isEnabled: Boolean) {
-        et_email.isEnabled = !isEnabled
-        et_password.isEnabled = !isEnabled
-        btn_login.isEnabled = !isEnabled
     }
 
     companion object {
