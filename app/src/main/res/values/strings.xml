@@ -37,4 +37,7 @@
     <string name="signup_error_passwordEmpty">Please fill your password field</string>
     <string name="signup_error_invalidPassword">Should have at least 6 alphanumeric characterr</string>
     <string name="signup_error_nameEmpty">Please fill your name field</string>
+    <string name="menu_feed">Feed</string>
+    <string name="menu_create">create</string>
+    <string name="menu_profile">profile</string>
 </resources>

@@ -11,4 +11,5 @@
 
     <!--View Height-->
     <dimen name="line_height">1dp</dimen>
+    <dimen name="navigation_bottom_height">56dp</dimen>
 </resources>

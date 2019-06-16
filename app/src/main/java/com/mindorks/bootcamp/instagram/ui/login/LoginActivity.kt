@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.di.component.ActivityComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseActivity
+import com.mindorks.bootcamp.instagram.ui.home.HomeActivity
 import com.mindorks.bootcamp.instagram.ui.signup.SignUpActivity
 import com.mindorks.bootcamp.instagram.utils.common.Status
 import com.mindorks.bootcamp.instagram.utils.component.addClearDrawable
@@ -70,7 +71,7 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
 
         viewModel.launchHome.observe(this, Observer {
             it.getIfNotHandled()?.run {
-                ///TODO: Add intent to Home Activity
+                startActivity(HomeActivity.getIntent(this@LoginActivity))
             }
         })
     }

@@ -5,6 +5,7 @@ import com.mindorks.bootcamp.instagram.di.module.FragmentModule
 import com.mindorks.bootcamp.instagram.ui.base.BaseFragment
 import com.mindorks.bootcamp.instagram.ui.base.BaseViewModel
 import com.mindorks.bootcamp.instagram.ui.dummies.DummiesFragment
+import com.mindorks.bootcamp.instagram.ui.feed.FeedFragment
 import dagger.Component
 
 @FragmentScope
@@ -15,4 +16,6 @@ import dagger.Component
 interface FragmentComponent {
 
     fun inject(fragment: DummiesFragment)
+
+    fun inject(fragment: FeedFragment)
 }

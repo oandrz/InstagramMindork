@@ -6,6 +6,7 @@ import com.mindorks.bootcamp.instagram.data.repository.DummyRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseFragment
 import com.mindorks.bootcamp.instagram.ui.dummies.DummiesAdapter
 import com.mindorks.bootcamp.instagram.ui.dummies.DummiesViewModel
+import com.mindorks.bootcamp.instagram.ui.feed.FeedViewModel
 import com.mindorks.bootcamp.instagram.utils.ViewModelProviderFactory
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
@@ -21,16 +22,26 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
 
     @Provides
     fun provideDummiesViewModel(
-        schedulerProvider: SchedulerProvider,
-        compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper,
-        dummyRepository: DummyRepository
+            schedulerProvider: SchedulerProvider,
+            compositeDisposable: CompositeDisposable,
+            networkHelper: NetworkHelper,
+            dummyRepository: DummyRepository
     ): DummiesViewModel =
-        ViewModelProviders.of(fragment,
-            ViewModelProviderFactory(DummiesViewModel::class) {
-                DummiesViewModel(schedulerProvider, compositeDisposable, networkHelper, dummyRepository)
-            }
-        ).get(DummiesViewModel::class.java)
+            ViewModelProviders.of(fragment,
+                    ViewModelProviderFactory(DummiesViewModel::class) {
+                        DummiesViewModel(schedulerProvider, compositeDisposable, networkHelper,
+                                dummyRepository)
+                    }).get(DummiesViewModel::class.java)
+
+    @Provides
+    fun provideFeedViewModel(
+            schedulerProvider: SchedulerProvider,
+            compositeDisposable: CompositeDisposable,
+            networkHelper: NetworkHelper
+    ): FeedViewModel =
+            ViewModelProviders.of(fragment, ViewModelProviderFactory(FeedViewModel::class) {
+                FeedViewModel(schedulerProvider, compositeDisposable, networkHelper)
+            }).get(FeedViewModel::class.java)
 
     @Provides
     fun provideDummiesAdapter() = DummiesAdapter(fragment.lifecycle, ArrayList())

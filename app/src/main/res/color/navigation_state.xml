@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Andreas on 28/1/2019.
+  -->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true" android:color="@color/black" />
+    <item android:state_checked="false" android:color="@color/white" />
+</selector>

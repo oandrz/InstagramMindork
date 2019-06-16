@@ -8,6 +8,7 @@ import com.mindorks.bootcamp.instagram.ui.base.BaseActivity
 import com.mindorks.bootcamp.instagram.ui.login.LoginActivity
 import com.mindorks.bootcamp.instagram.utils.common.Event
 import android.os.Handler
+import com.mindorks.bootcamp.instagram.ui.home.HomeActivity
 
 
 class SplashActivity : BaseActivity<SplashViewModel>() {
@@ -40,6 +41,7 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
         viewModel.launchLogin.observe(this, Observer<Event<Map<String, String>>> {
             it.getIfNotHandled()?.run {
                 ///TODO: Login to home activity
+                startActivity(HomeActivity.getIntent(this@SplashActivity))
             }
         })
     }
