@@ -43,7 +43,7 @@ class SignUpActivity : BaseActivity<SignUpViewModel>() {
                     isEnabled = false
                     setText(R.string.general_loading)
                 } else {
-                    isEnabled = false
+                    isEnabled = true
                     setText(R.string.signup_button_signup_text)
                 }
             }
@@ -52,14 +52,14 @@ class SignUpActivity : BaseActivity<SignUpViewModel>() {
         viewModel.nameValidation.observe(this, Observer {
             when (it.status) {
                 Status.ERROR -> container_name.error = it.data?.run { getString(this) }
-                else -> container_password.isErrorEnabled = false
+                else -> container_name.isErrorEnabled = false
             }
         })
 
         viewModel.emailValidation.observe(this, Observer {
             when (it.status) {
                 Status.ERROR -> container_email.error = it.data?.run { getString(this) }
-                else -> container_password.isErrorEnabled = false
+                else -> container_email.isErrorEnabled = false
             }
         })
 
