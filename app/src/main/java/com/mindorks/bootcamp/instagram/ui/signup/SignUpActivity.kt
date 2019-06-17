@@ -80,7 +80,6 @@ class SignUpActivity : BaseActivity<SignUpViewModel>() {
 
         viewModel.launchHome.observe(this, Observer {
             it.getIfNotHandled()?.run {
-                ///TODO: Add intent to Home Activity
                 startActivity(HomeActivity.getIntent(this@SignUpActivity))
                 finish()
             }

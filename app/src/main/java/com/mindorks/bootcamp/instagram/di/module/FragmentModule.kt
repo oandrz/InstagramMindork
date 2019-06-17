@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mindorks.bootcamp.instagram.data.repository.DummyRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseFragment
+import com.mindorks.bootcamp.instagram.ui.create.CreateViewModel
 import com.mindorks.bootcamp.instagram.ui.dummies.DummiesAdapter
 import com.mindorks.bootcamp.instagram.ui.dummies.DummiesViewModel
 import com.mindorks.bootcamp.instagram.ui.feed.FeedViewModel
+import com.mindorks.bootcamp.instagram.ui.profile.ProfileViewModel
 import com.mindorks.bootcamp.instagram.utils.ViewModelProviderFactory
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
@@ -27,11 +29,10 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
             networkHelper: NetworkHelper,
             dummyRepository: DummyRepository
     ): DummiesViewModel =
-            ViewModelProviders.of(fragment,
-                    ViewModelProviderFactory(DummiesViewModel::class) {
-                        DummiesViewModel(schedulerProvider, compositeDisposable, networkHelper,
-                                dummyRepository)
-                    }).get(DummiesViewModel::class.java)
+            ViewModelProviders.of(fragment, ViewModelProviderFactory(DummiesViewModel::class) {
+                DummiesViewModel(schedulerProvider, compositeDisposable, networkHelper,
+                        dummyRepository)
+            }).get(DummiesViewModel::class.java)
 
     @Provides
     fun provideFeedViewModel(
@@ -42,6 +43,26 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
             ViewModelProviders.of(fragment, ViewModelProviderFactory(FeedViewModel::class) {
                 FeedViewModel(schedulerProvider, compositeDisposable, networkHelper)
             }).get(FeedViewModel::class.java)
+
+    @Provides
+    fun provideCreateViewModel(
+            schedulerProvider: SchedulerProvider,
+            compositeDisposable: CompositeDisposable,
+            networkHelper: NetworkHelper
+    ): CreateViewModel =
+            ViewModelProviders.of(fragment, ViewModelProviderFactory(CreateViewModel::class) {
+                CreateViewModel(schedulerProvider, compositeDisposable, networkHelper)
+            }).get(CreateViewModel::class.java)
+
+    @Provides
+    fun provideProfileViewModel(
+            schedulerProvider: SchedulerProvider,
+            compositeDisposable: CompositeDisposable,
+            networkHelper: NetworkHelper
+    ): ProfileViewModel =
+            ViewModelProviders.of(fragment, ViewModelProviderFactory(ProfileViewModel::class) {
+                ProfileViewModel(schedulerProvider, compositeDisposable, networkHelper)
+            }).get(ProfileViewModel::class.java)
 
     @Provides
     fun provideDummiesAdapter() = DummiesAdapter(fragment.lifecycle, ArrayList())

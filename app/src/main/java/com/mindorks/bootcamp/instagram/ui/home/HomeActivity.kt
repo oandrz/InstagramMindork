@@ -8,7 +8,9 @@ import com.mindorks.bootcamp.instagram.di.component.ActivityComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseActivity
 import com.mindorks.bootcamp.instagram.ui.base.BaseFragment
 import com.mindorks.bootcamp.instagram.ui.base.BaseViewModel
+import com.mindorks.bootcamp.instagram.ui.create.CreateFragment
 import com.mindorks.bootcamp.instagram.ui.feed.FeedFragment
+import com.mindorks.bootcamp.instagram.ui.profile.ProfileFragment
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : BaseActivity<HomeViewModel>() {
@@ -27,9 +29,11 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
                         true
                     }
                     R.id.menu_create -> {
+                        addFragment(CreateFragment.TAG, CreateFragment.newInstance())
                         true
                     }
                     R.id.menu_profile -> {
+                        addFragment(ProfileFragment.TAG, ProfileFragment.newInstance())
                         true
                     }
                     else -> false
@@ -37,15 +41,13 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
             }
             selectedItemId = R.id.menu_feed
         }
-
-
     }
 
     private fun addFragment(tag: String, fragment: BaseFragment<out BaseViewModel>) {
         supportFragmentManager.findFragmentByTag(tag) ?: supportFragmentManager
                 .beginTransaction()
-                .add(R.id.navigation_fragment_container, fragment, tag)
-                .commitAllowingStateLoss()
+                .replace(R.id.navigation_fragment_container, fragment, tag)
+                .commit()
     }
 
     companion object {

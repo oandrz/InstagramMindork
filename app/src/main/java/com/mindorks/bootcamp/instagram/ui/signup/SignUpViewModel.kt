@@ -51,6 +51,7 @@ class SignUpViewModel(
                                 .subscribe(
                                         {
                                             userLiveData.postValue(Resource.success(it))
+                                            launchHome.postValue(Event(emptyMap()))
                                         },
                                         {
                                             handleNetworkError(it)
