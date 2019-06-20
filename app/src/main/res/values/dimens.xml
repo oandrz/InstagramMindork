@@ -12,4 +12,5 @@
     <!--View Height-->
     <dimen name="line_height">1dp</dimen>
     <dimen name="navigation_bottom_height">56dp</dimen>
+    <dimen name="toolbar_logo_height">32dp</dimen>
 </resources>
