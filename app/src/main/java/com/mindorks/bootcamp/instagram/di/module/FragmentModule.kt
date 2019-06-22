@@ -1,12 +1,15 @@
 package com.mindorks.bootcamp.instagram.di.module
 
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mindorks.bootcamp.instagram.data.repository.DummyRepository
+import com.mindorks.bootcamp.instagram.data.repository.FeedRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseFragment
 import com.mindorks.bootcamp.instagram.ui.create.CreateViewModel
 import com.mindorks.bootcamp.instagram.ui.dummies.DummiesAdapter
 import com.mindorks.bootcamp.instagram.ui.dummies.DummiesViewModel
+import com.mindorks.bootcamp.instagram.ui.feed.FeedAdapter
 import com.mindorks.bootcamp.instagram.ui.feed.FeedViewModel
 import com.mindorks.bootcamp.instagram.ui.profile.ProfileViewModel
 import com.mindorks.bootcamp.instagram.utils.ViewModelProviderFactory
@@ -38,10 +41,11 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
     fun provideFeedViewModel(
             schedulerProvider: SchedulerProvider,
             compositeDisposable: CompositeDisposable,
-            networkHelper: NetworkHelper
+            networkHelper: NetworkHelper,
+            feedRepository: FeedRepository
     ): FeedViewModel =
             ViewModelProviders.of(fragment, ViewModelProviderFactory(FeedViewModel::class) {
-                FeedViewModel(schedulerProvider, compositeDisposable, networkHelper)
+                FeedViewModel(schedulerProvider, compositeDisposable, networkHelper, feedRepository)
             }).get(FeedViewModel::class.java)
 
     @Provides
@@ -66,4 +70,11 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
 
     @Provides
     fun provideDummiesAdapter() = DummiesAdapter(fragment.lifecycle, ArrayList())
+
+    @Provides
+    fun provideFeedAdapter() = FeedAdapter(fragment.lifecycle, ArrayList())
+
+    @Provides
+    fun provideDividerItemDecoration(linearLayoutManager: LinearLayoutManager) =
+            DividerItemDecoration(fragment.context, linearLayoutManager.orientation)
 }

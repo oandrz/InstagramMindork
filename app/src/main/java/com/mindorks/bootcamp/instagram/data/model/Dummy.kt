@@ -9,6 +9,6 @@ data class Dummy(
     val name: String,
 
     @Expose
-    @SerializedName("imageUrl")
+    @SerializedName("image")
     val imageUrl: String?
 )

@@ -7,7 +7,7 @@ import com.mindorks.bootcamp.instagram.ui.base.BaseAdapter
 
 class FeedAdapter(
         parentLifecycle: Lifecycle,
-        private val feeds: ArrayList<Feed>
+        feeds: ArrayList<Feed>
 ) : BaseAdapter<Feed, FeedItemViewHolder>(parentLifecycle, feeds) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedItemViewHolder =
             FeedItemViewHolder(parent)

@@ -48,9 +48,9 @@ interface NetworkService {
 
     @GET(Endpoints.ALL_FEED)
     fun fetchFeed(
-        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY,
-        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
-        @Header(Networking.HEADER_USER_ID) userId: String
+            @Header(Networking.HEADER_USER_ID) userId: String,
+            @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+            @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
     ): Single<PostListResponse>
 
     @PUT(Endpoints.LIKE_FEED)

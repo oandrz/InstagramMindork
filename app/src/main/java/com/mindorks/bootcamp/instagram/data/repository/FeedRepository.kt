@@ -10,13 +10,13 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class FeedRepository @Inject constructor(
-    private val networkService: NetworkService,
-    private val databaseService: DatabaseService,
-    userPreferences: UserPreferences
+        private val networkService: NetworkService,
+        private val databaseService: DatabaseService,
+        userRepository: UserRepository
 ) {
 
-    private var accessToken: String = userPreferences.getAccessToken() ?: ""
-    private var userId: String = userPreferences.getUserId() ?: ""
+    private var accessToken: String = userRepository.getCurrentUser()?.accessToken ?: ""
+    private var userId: String = userRepository.getCurrentUser()?.id ?: ""
 
     fun fetchPost(): Single<List<Feed>> =
         networkService

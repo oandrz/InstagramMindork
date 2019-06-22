@@ -74,11 +74,10 @@ class ActivityModule(private val activity: BaseActivity<*>) {
         }).get(SignUpViewModel::class.java)
 
     @Provides
-    fun provirdeHomeViewModel(
+    fun provideHomeViewModel(
             schedulerProvider: SchedulerProvider,
             compositeDisposable: CompositeDisposable,
-            networkHelper: NetworkHelper,
-            userRepository: UserRepository
+            networkHelper: NetworkHelper
     ): HomeViewModel = ViewModelProviders.of(
             activity, ViewModelProviderFactory(HomeViewModel::class) {
         HomeViewModel(schedulerProvider, compositeDisposable, networkHelper)
