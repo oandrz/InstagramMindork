@@ -106,11 +106,11 @@ class FeedItemViewHolder(parent: ViewGroup) :
         })
     }
 
-    override fun onStop() {
+    override fun onDestroy() {
         itemView.favourite_animation.run {
             clearAnimation()
             removeAllAnimatorListeners()
         }
-        super.onStop()
+        super.onDestroy()
     }
 }

@@ -56,7 +56,7 @@ abstract class BaseItemViewHolder<T : Any, VM : BaseItemViewModel<T>>(
         lifecycleRegistry.markState(Lifecycle.State.CREATED)
     }
 
-    fun onDestroy() {
+    open fun onDestroy() {
         lifecycleRegistry.markState(Lifecycle.State.DESTROYED)
     }
 
