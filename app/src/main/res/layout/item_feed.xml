@@ -7,16 +7,16 @@
     android:background="@color/white">
 
     <ImageView
-            android:id="@+id/iv_image"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@color/grey"
-            android:scaleType="centerCrop"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline"
-            tools:srcCompat="@tools:sample/avatars" />
+        android:id="@+id/iv_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/grey"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <ImageView
         android:id="@+id/iv_avatar"
@@ -35,10 +35,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/iv_avatar"
         app:layout_constraintStart_toEndOf="@+id/iv_avatar"
-        app:layout_constraintTop_toTopOf="@+id/iv_avatar" />
+        app:layout_constraintTop_toTopOf="@+id/iv_avatar"
+        tools:text="TextView" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -46,6 +46,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="57dp" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/favourite_animation"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@null"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_image"
+        app:layout_constraintEnd_toEndOf="@+id/iv_image"
+        app:layout_constraintStart_toStartOf="@+id/iv_image"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:lottie_url="@string/feed_favourite_animation_url" />
 
     <ImageView
         android:id="@+id/iv_favourite"

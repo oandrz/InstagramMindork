@@ -1,6 +1,7 @@
 package com.mindorks.bootcamp.instagram.ui.feed
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.mindorks.bootcamp.instagram.data.model.Avatar
 import com.mindorks.bootcamp.instagram.data.model.Feed
@@ -32,23 +33,32 @@ class FeedItemViewModel @Inject constructor(
         it.likedBy.map { feed -> feed.id }.contains(userRepository.getCurrentUser()?.id)
     }
 
+    val showFavouriteAnimation: MutableLiveData<ShowMode> = MutableLiveData()
+
+    private var isFetching: Boolean = false
+
     override fun onCreate() {
 
     }
 
     fun onFavouriteIconClicked() {
-        if (hasLiked.value == true) {
-            data.value?.let {
-                unLikePost(it.id)
-            }
-        } else {
-            data.value?.let {
-                likePost(it.id)
+        if (!isFetching) {
+            if (hasLiked.value == true) {
+                data.value?.let {
+                    unLikePost(it.id)
+                    showFavouriteAnimation.postValue(ShowMode.REVERSE)
+                }
+            } else {
+                data.value?.let {
+                    likePost(it.id)
+                    showFavouriteAnimation.postValue(ShowMode.STRAIGHT)
+                }
             }
         }
     }
 
     private fun likePost(postId: String) {
+        isFetching = true
         compositeDisposable.add(
                 feedRepository.likePost(postId)
                         .subscribeOn(schedulerProvider.io())
@@ -58,12 +68,14 @@ class FeedItemViewModel @Inject constructor(
                                 },
                                 {
                                     handleNetworkError(it)
+                                    isFetching = false
                                 }
                         )
         )
     }
 
     private fun unLikePost(postId: String) {
+        isFetching = true
         compositeDisposable.add(
                 feedRepository.unLikePost(postId)
                         .subscribeOn(schedulerProvider.io())
@@ -73,6 +85,7 @@ class FeedItemViewModel @Inject constructor(
                                 },
                                 {
                                     handleNetworkError(it)
+                                    isFetching = false
                                 }
                         )
         )
@@ -85,11 +98,18 @@ class FeedItemViewModel @Inject constructor(
                         .subscribe(
                                 {
                                     data.postValue(it)
+                                    isFetching = false
                                 },
                                 {
                                     handleNetworkError(it)
+                                    isFetching = false
                                 }
                         )
         )
     }
+}
+
+enum class ShowMode {
+    REVERSE,
+    STRAIGHT
 }

@@ -42,7 +42,6 @@ class FeedFragment : BaseFragment<FeedViewModel>() {
             it?.run {
                 rv_feed.visibility = if (this) View.GONE else View.VISIBLE
                 progress_circle.visibility = if (this) View.VISIBLE else View.GONE
-                container_refresh.isRefreshing = this
             }
         })
     }
@@ -60,7 +59,9 @@ class FeedFragment : BaseFragment<FeedViewModel>() {
             adapter = feedAdapter
         }
 
+        container_refresh.isRefreshing = false
         container_refresh.setOnRefreshListener {
+            container_refresh.isRefreshing = false
             viewModel.refresh()
         }
     }

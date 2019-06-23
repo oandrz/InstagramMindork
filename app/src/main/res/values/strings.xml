@@ -44,4 +44,5 @@
 
     <!--Feed Screen-->
     <string name="feed_likes_format">%d likes</string>
+    <string name="feed_favourite_animation_url">https://assets9.lottiefiles.com/packages/lf20_ELfTW0.json</string>
 </resources>

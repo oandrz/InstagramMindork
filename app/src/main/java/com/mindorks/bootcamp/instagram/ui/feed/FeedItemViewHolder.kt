@@ -1,9 +1,13 @@
 package com.mindorks.bootcamp.instagram.ui.feed
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.airbnb.lottie.LottieDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
@@ -16,6 +20,7 @@ import com.mindorks.bootcamp.instagram.ui.base.BaseItemViewHolder
 import com.mindorks.bootcamp.instagram.utils.common.GlideHelper
 import com.mindorks.bootcamp.instagram.utils.common.TimeUtils
 import com.mindorks.bootcamp.instagram.utils.common.getDateWithServerTimeStamp
+import com.mindorks.bootcamp.instagram.utils.log.Logger
 import kotlinx.android.synthetic.main.item_feed.view.*
 import java.text.SimpleDateFormat
 import javax.inject.Inject
@@ -69,6 +74,15 @@ class FeedItemViewHolder(parent: ViewGroup) :
                     if (it) R.drawable.ic_heart_selected
                     else R.drawable.ic_heart_unselected
             )
+
+        })
+
+        viewModel.showFavouriteAnimation.observe(this, Observer {
+            itemView.favourite_animation.run {
+                visibility = View.VISIBLE
+                speed = if (it == ShowMode.REVERSE) -1f else 1f
+                favourite_animation.playAnimation()
+            }
         })
     }
 
@@ -81,5 +95,22 @@ class FeedItemViewHolder(parent: ViewGroup) :
         view.iv_favourite.setOnClickListener {
             viewModel.onFavouriteIconClicked()
         }
+
+        itemView.favourite_animation.addAnimatorListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator?) {
+                itemView.favourite_animation.run {
+                    clearAnimation()
+                    visibility = View.GONE
+                }
+            }
+        })
+    }
+
+    override fun onStop() {
+        itemView.favourite_animation.run {
+            clearAnimation()
+            removeAllAnimatorListeners()
+        }
+        super.onStop()
     }
 }

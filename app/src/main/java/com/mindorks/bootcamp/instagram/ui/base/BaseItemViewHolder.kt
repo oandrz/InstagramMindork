@@ -51,7 +51,7 @@ abstract class BaseItemViewHolder<T : Any, VM : BaseItemViewModel<T>>(
         lifecycleRegistry.markState(Lifecycle.State.RESUMED)
     }
 
-    fun onStop() {
+    open fun onStop() {
         lifecycleRegistry.markState(Lifecycle.State.STARTED)
         lifecycleRegistry.markState(Lifecycle.State.CREATED)
     }
