@@ -64,11 +64,22 @@ class FeedItemViewHolder(parent: ViewGroup) :
             itemView.tv_time.text = TimeUtils.getTimeAgo(it.getDateWithServerTimeStamp())
         })
 
+        viewModel.hasLiked.observe(this, Observer {
+            itemView.iv_favourite.setImageResource(
+                    if (it) R.drawable.ic_heart_selected
+                    else R.drawable.ic_heart_unselected
+            )
+        })
     }
 
     override fun setupView(view: View) {
-        view.setOnClickListener {
+        view.setOnLongClickListener {
+            viewModel.onFavouriteIconClicked()
+            it.isLongClickable
+        }
 
+        view.iv_favourite.setOnClickListener {
+            viewModel.onFavouriteIconClicked()
         }
     }
 }

@@ -26,7 +26,7 @@ data class Feed(
 
         @Expose
     @SerializedName("likedBy")
-    val likedBy: List<User>,
+        val likedBy: List<Avatar>,
 
         @Expose
         @SerializedName("createdAt")

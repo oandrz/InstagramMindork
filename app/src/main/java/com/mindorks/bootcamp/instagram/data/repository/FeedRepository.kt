@@ -34,4 +34,9 @@ class FeedRepository @Inject constructor(
             .unLikeFeed(
                 LikeUnlikeBodyRequest(postId), accessToken = accessToken, userId = userId
             )
+
+    fun fetchSpecificPost(postId: String): Single<Feed> =
+            networkService
+                    .fetchSpecificFeed(postId, accessToken = accessToken, userId = userId)
+                    .map { it.data }
 }

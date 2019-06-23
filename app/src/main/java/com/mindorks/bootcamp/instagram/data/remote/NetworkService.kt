@@ -1,13 +1,11 @@
 package com.mindorks.bootcamp.instagram.data.remote
 
+import com.mindorks.bootcamp.instagram.data.model.Feed
 import com.mindorks.bootcamp.instagram.data.remote.request.DummyRequest
 import com.mindorks.bootcamp.instagram.data.remote.request.LikeUnlikeBodyRequest
 import com.mindorks.bootcamp.instagram.data.remote.request.LoginRequest
 import com.mindorks.bootcamp.instagram.data.remote.request.SignupRequest
-import com.mindorks.bootcamp.instagram.data.remote.response.DummyResponse
-import com.mindorks.bootcamp.instagram.data.remote.response.GeneralResponse
-import com.mindorks.bootcamp.instagram.data.remote.response.PostListResponse
-import com.mindorks.bootcamp.instagram.data.remote.response.UserResponse
+import com.mindorks.bootcamp.instagram.data.remote.response.*
 import io.reactivex.Single
 import retrofit2.http.*
 import javax.inject.Singleton
@@ -55,17 +53,25 @@ interface NetworkService {
 
     @PUT(Endpoints.LIKE_FEED)
     fun likeFeed(
-        @Body request: LikeUnlikeBodyRequest,
-        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY,
-        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
-        @Header(Networking.HEADER_USER_ID) userId: String
+            @Body request: LikeUnlikeBodyRequest,
+            @Header(Networking.HEADER_USER_ID) userId: String,
+            @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+            @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
     ): Single<GeneralResponse>
 
     @PUT(Endpoints.UNLIKE_FEED)
     fun unLikeFeed(
-        @Body request: LikeUnlikeBodyRequest,
-        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY,
-        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
-        @Header(Networking.HEADER_USER_ID) userId: String
+            @Body request: LikeUnlikeBodyRequest,
+            @Header(Networking.HEADER_USER_ID) userId: String,
+            @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+            @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
     ): Single<GeneralResponse>
+
+    @GET(Endpoints.FEED_DETAIL)
+    fun fetchSpecificFeed(
+            @Path("postId") postId: String,
+            @Header(Networking.HEADER_USER_ID) userId: String,
+            @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+            @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+    ): Single<PostDetailResponse>
 }
