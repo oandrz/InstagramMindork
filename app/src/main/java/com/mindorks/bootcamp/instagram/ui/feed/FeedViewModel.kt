@@ -27,6 +27,14 @@ class FeedViewModel(
             Transformations.map(feedLiveData) { it.status == Status.LOADING }
 
     override fun onCreate() {
+        fetchFeed()
+    }
+
+    fun refresh() {
+        fetchFeed()
+    }
+
+    private fun fetchFeed() {
         if (checkInternetConnectionWithMessage()) {
             feedLiveData.postValue(Resource.loading())
             compositeDisposable.add(
