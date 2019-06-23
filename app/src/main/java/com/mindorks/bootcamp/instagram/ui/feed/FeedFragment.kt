@@ -53,13 +53,15 @@ class FeedFragment : BaseFragment<FeedViewModel>() {
             supportActionBar?.title = ""
         }
 
-        rv_feed.addItemDecoration(itemDecoration)
-        rv_feed.layoutManager = linearLayoutManager
-        rv_feed.adapter = feedAdapter
+        rv_feed.run {
+            addItemDecoration(itemDecoration)
+            layoutManager = linearLayoutManager
+            adapter = feedAdapter
+        }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         rv_feed.removeItemDecoration(itemDecoration)
     }
 

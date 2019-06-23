@@ -41,4 +41,7 @@
     <string name="menu_create">create</string>
     <string name="menu_profile">profile</string>
     <string name="general_toolbar_logo">toolbar_logo</string>
+
+    <!--Feed Screen-->
+    <string name="feed_likes_format">%d likes</string>
 </resources>
