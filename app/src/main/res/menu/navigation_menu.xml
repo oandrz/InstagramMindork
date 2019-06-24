@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_feed"
         android:icon="@drawable/ic_state_home"
-        android:title="@string/menu_feed" />
+        android:title="@string/menu_feed"
+        android:titleCondensed="@string/menu_feed"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_create"
         android:icon="@drawable/ic_state_create"
-        android:title="@string/menu_create" />
+        android:title="@string/menu_create"
+        android:titleCondensed="@string/menu_feed"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_profile"
         android:icon="@drawable/ic_state_profile"
-        android:title="@string/menu_profile" />
+        android:title="@string/menu_profile"
+        android:titleCondensed="@string/menu_feed"
+        app:showAsAction="always" />
 </menu>
