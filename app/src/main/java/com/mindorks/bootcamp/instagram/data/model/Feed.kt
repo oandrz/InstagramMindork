@@ -4,31 +4,31 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 data class Feed(
-        @Expose
+    @Expose
     @SerializedName("id")
     val id: String,
 
-        @Expose
+    @Expose
     @SerializedName("imgUrl")
     val imgUrl: String,
 
-        @Expose
+    @Expose
     @SerializedName("imgWidth")
     val imageWidth: Int,
 
-        @Expose
+    @Expose
     @SerializedName("imgHeight")
     val imageHeight: Int,
 
-        @Expose
+    @Expose
     @SerializedName("user")
-        val avatar: Avatar,
+    val avatar: Avatar,
 
-        @Expose
+    @Expose
     @SerializedName("likedBy")
-        val likedBy: List<Avatar>,
+    val likedBy: MutableList<Avatar>?,
 
-        @Expose
-        @SerializedName("createdAt")
+    @Expose
+    @SerializedName("createdAt")
     val createdAt: String
 )
