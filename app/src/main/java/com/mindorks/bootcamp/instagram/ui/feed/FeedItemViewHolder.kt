@@ -4,29 +4,22 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import com.airbnb.lottie.LottieDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.data.model.Feed
-import com.mindorks.bootcamp.instagram.data.remote.Networking
-import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.di.component.ViewHolderComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseItemViewHolder
 import com.mindorks.bootcamp.instagram.utils.common.GlideHelper
 import com.mindorks.bootcamp.instagram.utils.common.TimeUtils
 import com.mindorks.bootcamp.instagram.utils.common.getDateWithServerTimeStamp
-import com.mindorks.bootcamp.instagram.utils.log.Logger
 import kotlinx.android.synthetic.main.item_feed.view.*
-import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 class FeedItemViewHolder(parent: ViewGroup) :
-        BaseItemViewHolder<Feed, FeedItemViewModel>(R.layout.item_feed, parent) {
+    BaseItemViewHolder<Feed, FeedItemViewModel>(R.layout.item_feed, parent) {
 
     @Inject
     lateinit var glideHeader: Map<String, String>
@@ -37,25 +30,37 @@ class FeedItemViewHolder(parent: ViewGroup) :
 
     override fun setupObservers() {
         super.setupObservers()
-        viewModel.user.observe(this, Observer {
-            with(itemView) {
-                tv_name.text = it.name
-                if (!it.profilePictureUrl.isNullOrEmpty()) {
-                    Glide.with(context)
-                        .load(GlideHelper.getProtectedUrl(it.profilePictureUrl, glideHeader))
-                        .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
-                        .apply(RequestOptions.circleCropTransform())
-                        .error(Glide.with(context).load(R.drawable.ic_signup))
-                        .into(itemView.iv_avatar)
-                }
+        viewModel.userName.observe(this, Observer {
+            itemView.tv_name.text = it
+        })
+
+        viewModel.profilePicture.observe(this, Observer {
+            it?.run {
+                Glide.with(itemView.iv_avatar.context)
+                    .load(GlideHelper.getProtectedUrl(it.imageUrl, glideHeader))
+                    .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
+                    .apply(RequestOptions.circleCropTransform())
+                    .apply(RequestOptions.placeholderOf(R.drawable.ic_signup))
+                    .into(itemView.iv_avatar)
             }
         })
 
         viewModel.image.observe(this, Observer {
-            Glide.with(itemView.context)
-                .load(GlideHelper.getProtectedUrl(it.imageUrl, glideHeader))
-                .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
-                .into(itemView.iv_image)
+            it?.run {
+                val glideRequest = Glide.with(itemView.context)
+                    .load(GlideHelper.getProtectedUrl(it.imageUrl, glideHeader))
+                    .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
+
+                if (imageWidth > 0 && imageHeight > 0) {
+                    val params = itemView.iv_image.layoutParams as ViewGroup.LayoutParams
+                    params.width = imageWidth
+                    params.height = imageHeight
+                    itemView.iv_image.layoutParams = params
+                    glideRequest.apply(RequestOptions.overrideOf(imageWidth, imageHeight))
+                }
+
+                glideRequest.into(itemView.iv_image)
+            }
         })
 
         viewModel.likesCount.observe(this, Observer {
@@ -71,8 +76,8 @@ class FeedItemViewHolder(parent: ViewGroup) :
 
         viewModel.hasLiked.observe(this, Observer {
             itemView.iv_favourite.setImageResource(
-                    if (it) R.drawable.ic_heart_selected
-                    else R.drawable.ic_heart_unselected
+                if (it) R.drawable.ic_heart_selected
+                else R.drawable.ic_heart_unselected
             )
 
         })
