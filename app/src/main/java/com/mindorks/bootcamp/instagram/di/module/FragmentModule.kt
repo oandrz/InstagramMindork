@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mindorks.bootcamp.instagram.data.repository.DummyRepository
 import com.mindorks.bootcamp.instagram.data.repository.FeedRepository
+import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseFragment
 import com.mindorks.bootcamp.instagram.ui.create.CreateViewModel
 import com.mindorks.bootcamp.instagram.ui.dummies.DummiesAdapter
@@ -64,12 +65,16 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
 
     @Provides
     fun provideProfileViewModel(
-            schedulerProvider: SchedulerProvider,
-            compositeDisposable: CompositeDisposable,
-            networkHelper: NetworkHelper
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper,
+        userRepository: UserRepository
     ): ProfileViewModel =
             ViewModelProviders.of(fragment, ViewModelProviderFactory(ProfileViewModel::class) {
-                ProfileViewModel(schedulerProvider, compositeDisposable, networkHelper)
+                ProfileViewModel(
+                    schedulerProvider, compositeDisposable,
+                    networkHelper, userRepository
+                )
             }).get(ProfileViewModel::class.java)
 
     @Provides

@@ -36,7 +36,8 @@ class FeedRepository @Inject constructor(
                         Avatar(
                             currentUser.id,
                             currentUser.name,
-                            currentUser.profilePicUrl
+                            currentUser.profilePicUrl,
+                            null
                         )
                     )
                 }

@@ -6,6 +6,7 @@ import com.mindorks.bootcamp.instagram.data.model.User
 import com.mindorks.bootcamp.instagram.data.remote.NetworkService
 import com.mindorks.bootcamp.instagram.data.remote.request.LoginRequest
 import com.mindorks.bootcamp.instagram.data.remote.request.SignupRequest
+import com.mindorks.bootcamp.instagram.data.remote.response.MyProfileResponse
 import com.mindorks.bootcamp.instagram.data.remote.response.UserResponse
 import io.reactivex.Single
 import javax.inject.Inject
@@ -53,6 +54,13 @@ class UserRepository @Inject constructor(
         networkService
             .doSignUpCall(SignupRequest(email, password, name))
             .map { mapUserResponseAndSaveIntoPref(it) }
+
+    fun fetchMyProfile(): Single<MyProfileResponse> =
+        networkService
+            .fetchMyProfile(
+                userId = userPreferences.getUserId()!!,
+                accessToken = userPreferences.getAccessToken()!!
+            )
 
     private fun mapUserResponseAndSaveIntoPref(response: UserResponse): User =
         User(response.userId, response.userName, response.userEmail, response.accessToken).also {

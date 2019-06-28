@@ -1,6 +1,5 @@
 package com.mindorks.bootcamp.instagram.data.remote
 
-import com.mindorks.bootcamp.instagram.data.model.Feed
 import com.mindorks.bootcamp.instagram.data.remote.request.DummyRequest
 import com.mindorks.bootcamp.instagram.data.remote.request.LikeUnlikeBodyRequest
 import com.mindorks.bootcamp.instagram.data.remote.request.LoginRequest
@@ -76,4 +75,11 @@ interface NetworkService {
         @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
         @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
     ): Single<PostDetailResponse>
+
+    @GET(Endpoints.MY_PROFILE)
+    fun fetchMyProfile(
+        @Header(Networking.HEADER_USER_ID) userId: String,
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+    ): Single<MyProfileResponse>
 }
