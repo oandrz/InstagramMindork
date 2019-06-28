@@ -46,32 +46,34 @@ interface NetworkService {
 
     @GET(Endpoints.ALL_FEED)
     fun fetchFeed(
-            @Header(Networking.HEADER_USER_ID) userId: String,
-            @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
-            @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+        @Query("firstPostId") firstPostId: String?,
+        @Query("lastPostId") lastPostId: String?,
+        @Header(Networking.HEADER_USER_ID) userId: String,
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
     ): Single<PostListResponse>
 
     @PUT(Endpoints.LIKE_FEED)
     fun likeFeed(
-            @Body request: LikeUnlikeBodyRequest,
-            @Header(Networking.HEADER_USER_ID) userId: String,
-            @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
-            @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+        @Body request: LikeUnlikeBodyRequest,
+        @Header(Networking.HEADER_USER_ID) userId: String,
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
     ): Single<GeneralResponse>
 
     @PUT(Endpoints.UNLIKE_FEED)
     fun unLikeFeed(
-            @Body request: LikeUnlikeBodyRequest,
-            @Header(Networking.HEADER_USER_ID) userId: String,
-            @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
-            @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+        @Body request: LikeUnlikeBodyRequest,
+        @Header(Networking.HEADER_USER_ID) userId: String,
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
     ): Single<GeneralResponse>
 
     @GET(Endpoints.FEED_DETAIL)
     fun fetchSpecificFeed(
-            @Path("postId") postId: String,
-            @Header(Networking.HEADER_USER_ID) userId: String,
-            @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
-            @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+        @Path("postId") postId: String,
+        @Header(Networking.HEADER_USER_ID) userId: String,
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
     ): Single<PostDetailResponse>
 }

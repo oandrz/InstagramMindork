@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.di.component.FragmentComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseFragment
@@ -57,6 +58,19 @@ class FeedFragment : BaseFragment<FeedViewModel>() {
             addItemDecoration(itemDecoration)
             layoutManager = linearLayoutManager
             adapter = feedAdapter
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    layoutManager?.run {
+                        if (this is LinearLayoutManager
+                            && itemCount > 0
+                            && itemCount == findLastVisibleItemPosition() + 1
+                        ) {
+                            viewModel.onLoadMore()
+                        }
+                    }
+                }
+            })
         }
 
         container_refresh.isRefreshing = false

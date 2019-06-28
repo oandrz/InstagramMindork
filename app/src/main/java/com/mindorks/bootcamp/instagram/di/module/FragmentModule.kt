@@ -18,6 +18,7 @@ import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.processors.PublishProcessor
 
 @Module
 class FragmentModule(private val fragment: BaseFragment<*>) {
@@ -45,7 +46,10 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
             feedRepository: FeedRepository
     ): FeedViewModel =
             ViewModelProviders.of(fragment, ViewModelProviderFactory(FeedViewModel::class) {
-                FeedViewModel(schedulerProvider, compositeDisposable, networkHelper, feedRepository)
+                FeedViewModel(
+                    schedulerProvider, compositeDisposable, networkHelper,
+                    feedRepository, ArrayList(), PublishProcessor.create()
+                )
             }).get(FeedViewModel::class.java)
 
     @Provides

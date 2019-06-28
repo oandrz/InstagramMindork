@@ -14,4 +14,5 @@
     <dimen name="navigation_bottom_height">56dp</dimen>
     <dimen name="toolbar_logo_height">32dp</dimen>
     <dimen name="navigation_bottom_elevation">8dp</dimen>
+    <dimen name="profile_avatar_size">86dp</dimen>
 </resources>

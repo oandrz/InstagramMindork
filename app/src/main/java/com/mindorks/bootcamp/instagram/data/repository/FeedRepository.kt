@@ -18,9 +18,9 @@ class FeedRepository @Inject constructor(
     private var accessToken: String = userRepository.getCurrentUser()?.accessToken ?: ""
     private var userId: String = userRepository.getCurrentUser()?.id ?: ""
 
-    fun fetchPost(): Single<List<Feed>> =
+    fun fetchPost(firstPostId: String?, lastPostId: String?): Single<List<Feed>> =
         networkService
-            .fetchFeed(accessToken = accessToken, userId = userId)
+            .fetchFeed(firstPostId, lastPostId, userId, accessToken)
             .map { it.data }
 
     fun likePost(feed: Feed, currentUser: User): Single<Feed> =
