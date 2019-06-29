@@ -45,6 +45,16 @@ class FeedFragment : BaseFragment<FeedViewModel>() {
                 progress_circle.visibility = if (this) View.VISIBLE else View.GONE
             }
         })
+
+        viewModel.isRefresh.observe(this, Observer {
+            if (it) {
+                feedAdapter.clearAllData()
+            }
+        })
+
+        viewModel.loading.observe(this, Observer {
+            loadmore_progress.visibility = if (it) View.VISIBLE else View.GONE
+        })
     }
 
     override fun setupView(view: View) {

@@ -22,7 +22,8 @@ class FeedViewModel(
     private val paginator: PublishProcessor<Pair<String?, String?>>
 ) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
 
-    private val loading: MutableLiveData<Boolean> = MutableLiveData()
+    val isRefresh: MutableLiveData<Boolean> = MutableLiveData()
+    val loading: MutableLiveData<Boolean> = MutableLiveData()
     private val feedLiveData: MutableLiveData<Resource<List<Feed>>> = MutableLiveData()
 
     fun getFeeds(): LiveData<List<Feed>> = Transformations.map(feedLiveData) { it.data }
@@ -35,11 +36,13 @@ class FeedViewModel(
     }
 
     override fun onCreate() {
+        feedLiveData.postValue(Resource.loading())
         loadMorePosts()
     }
 
     fun refresh() {
         feedLiveData.postValue(Resource.loading())
+        isRefresh.postValue(true)
         feedDataSource.clear()
         loadMorePosts()
     }
