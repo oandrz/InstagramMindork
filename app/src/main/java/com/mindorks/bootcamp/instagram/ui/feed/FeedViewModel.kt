@@ -39,6 +39,8 @@ class FeedViewModel(
     }
 
     fun refresh() {
+        feedLiveData.postValue(Resource.loading())
+        feedDataSource.clear()
         loadMorePosts()
     }
 
@@ -66,6 +68,7 @@ class FeedViewModel(
                     },
                     {
                         handleNetworkError(it)
+                        feedLiveData.postValue(Resource.error())
                     }
                 )
         )
