@@ -42,7 +42,6 @@ interface NetworkService {
         @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
     ): Single<UserResponse>
 
-
     @GET(Endpoints.ALL_FEED)
     fun fetchFeed(
         @Query("firstPostId") firstPostId: String?,
@@ -51,6 +50,13 @@ interface NetworkService {
         @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
         @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
     ): Single<PostListResponse>
+
+    @GET(Endpoints.MY_FEED)
+    fun fetchMyFeed(
+        @Header(Networking.HEADER_USER_ID) userId: String,
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+    ): Single<MyPostListResponse>
 
     @PUT(Endpoints.LIKE_FEED)
     fun likeFeed(

@@ -49,4 +49,5 @@
     <!--Profile Screen-->
     <string name="profile_editProfile_text">Edit Profile</string>
     <string name="profile_title">Profile</string>
+    <string name="profile_post_count_format">%d Posts</string>
 </resources>

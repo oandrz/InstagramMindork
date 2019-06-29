@@ -18,5 +18,7 @@ data class Avatar(
 
     @Expose
     @SerializedName("tagline")
-    val tagLine: String?
+    val tagLine: String?,
+
+    var postCount: Int
 )
