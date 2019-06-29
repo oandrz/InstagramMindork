@@ -7,6 +7,7 @@ import com.mindorks.bootcamp.instagram.data.model.User
 import com.mindorks.bootcamp.instagram.data.remote.NetworkService
 import com.mindorks.bootcamp.instagram.data.remote.request.LoginRequest
 import com.mindorks.bootcamp.instagram.data.remote.request.SignupRequest
+import com.mindorks.bootcamp.instagram.data.remote.response.GeneralResponse
 import com.mindorks.bootcamp.instagram.data.remote.response.MyPostListResponse
 import com.mindorks.bootcamp.instagram.data.remote.response.MyProfileResponse
 import com.mindorks.bootcamp.instagram.data.remote.response.UserResponse
@@ -74,6 +75,16 @@ class UserRepository @Inject constructor(
                 }
             }
         )
+
+    fun logout(): Single<GeneralResponse> =
+        networkService.logout(
+            userId = userPreferences.getUserId()!!,
+            accessToken = userPreferences.getAccessToken()!!
+        ).map {
+            removeCurrentUser()
+            it
+        }
+
 
     private fun mapUserResponseAndSaveIntoPref(response: UserResponse): User =
         User(response.userId, response.userName, response.userEmail, response.accessToken).also {

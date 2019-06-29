@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.bumptech.glide.load.model.GlideUrl
 import com.mindorks.bootcamp.instagram.data.model.Avatar
+import com.mindorks.bootcamp.instagram.data.remote.response.GeneralResponse
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseViewModel
+import com.mindorks.bootcamp.instagram.utils.common.Event
 import com.mindorks.bootcamp.instagram.utils.common.GlideHelper
 import com.mindorks.bootcamp.instagram.utils.common.Resource
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
@@ -26,6 +28,7 @@ class ProfileViewModel(
 
     private val profileLiveData: MutableLiveData<Resource<Avatar>> = MutableLiveData()
 
+    val launchLogin: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
     val isLoading: MutableLiveData<Boolean> = MutableLiveData()
 
     fun getProfilePicture(): LiveData<GlideUrl> = Transformations.map(profileLiveData) {
@@ -35,6 +38,24 @@ class ProfileViewModel(
     }
 
     fun getMyProfile(): LiveData<Avatar> = Transformations.map(profileLiveData) { it.data }
+
+    fun logout() {
+        isLoading.postValue(true)
+        compositeDisposable.add(
+            userRepository.logout()
+                .subscribeOn(schedulerProvider.io())
+                .subscribe(
+                    {
+                        isLoading.postValue(false)
+                        launchLogin.postValue(Event(emptyMap()))
+                    },
+                    {
+                        isLoading.postValue(false)
+                        handleNetworkError(it)
+                    }
+                )
+        )
+    }
 
     override fun onCreate() {
         fetchMyProfile()

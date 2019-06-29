@@ -45,19 +45,19 @@ class SignUpViewModel(
             if (successValidation.size == validations.size && checkInternetConnectionWithMessage()) {
                 userLiveData.postValue(Resource.loading())
                 compositeDisposable.add(
-                        userRepository
-                                .doSignUp(email, password, fullName)
-                                .subscribeOn(schedulerProvider.io())
-                                .subscribe(
-                                        {
-                                            userLiveData.postValue(Resource.success(it))
-                                            launchHome.postValue(Event(emptyMap()))
-                                        },
-                                        {
-                                            handleNetworkError(it)
-                                            userLiveData.postValue(Resource.error())
-                                        }
-                                ))
+                    userRepository
+                        .doSignUp(email, password, fullName)
+                        .subscribeOn(schedulerProvider.io())
+                        .subscribe(
+                            {
+                                userLiveData.postValue(Resource.success(it))
+                                launchHome.postValue(Event(emptyMap()))
+                            },
+                            {
+                                handleNetworkError(it)
+                                userLiveData.postValue(Resource.error())
+                            }
+                        ))
             }
         }
     }
@@ -65,9 +65,9 @@ class SignUpViewModel(
     fun launchLogin() = launchLogin.postValue(Event(emptyMap()))
 
     private fun filterValidation(field: Validation.Field) =
-            Transformations.map(validationList) {
-                it.find { validation -> validation.field == field }
-                        ?.run { return@run this.resource }
-                        ?: Resource.unknown()
-            }
+        Transformations.map(validationList) {
+            it.find { validation -> validation.field == field }
+                ?.run { return@run this.resource }
+                ?: Resource.unknown()
+        }
 }
