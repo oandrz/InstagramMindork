@@ -66,8 +66,8 @@ class SignUpActivity : BaseActivity<SignUpViewModel>() {
 
         viewModel.passwordValidation.observe(this, Observer {
             when (it.status) {
-                Status.ERROR -> container_password.error = it.data?.run { getString(this) }
-                else -> container_password.isErrorEnabled = false
+                Status.ERROR -> container_name.error = it.data?.run { getString(this) }
+                else -> container_name.isErrorEnabled = false
             }
         })
 

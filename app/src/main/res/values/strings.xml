@@ -51,4 +51,10 @@
     <string name="profile_title">Profile</string>
     <string name="profile_post_count_format">%d Posts</string>
     <string name="profile_logout">Logout</string>
+
+    <!--Edit Profile-->
+    <string name="editprofile_change_photo_text">Change Photo</string>
+    <string name="editprofile_bio_text">Bio</string>
+    <string name="editprofile_private_information_text">Private information</string>
+    <string name="editprofile_email_hint">Email Address</string>
 </resources>

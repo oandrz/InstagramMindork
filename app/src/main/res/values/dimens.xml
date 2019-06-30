@@ -15,4 +15,5 @@
     <dimen name="toolbar_logo_height">32dp</dimen>
     <dimen name="navigation_bottom_elevation">8dp</dimen>
     <dimen name="profile_avatar_size">86dp</dimen>
+    <dimen name="editprofile_placeholder_size">80dp</dimen>
 </resources>
