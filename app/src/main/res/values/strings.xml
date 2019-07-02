@@ -40,6 +40,7 @@
     <string name="menu_feed">Feed</string>
     <string name="menu_create">create</string>
     <string name="menu_profile">profile</string>
+    <string name="menu_confirm">confirm</string>
     <string name="general_toolbar_logo">toolbar_logo</string>
 
     <!--Feed Screen-->
@@ -58,4 +59,5 @@
     <string name="editprofile_private_information_text">Private information</string>
     <string name="editprofile_email_hint">Email Address</string>
     <string name="editprofile_name_text">Name</string>
+    <string name="editprofile_title">Edit Profile</string>
 </resources>
