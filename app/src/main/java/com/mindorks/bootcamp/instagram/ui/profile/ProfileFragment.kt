@@ -69,8 +69,10 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
 
         viewModel.launchEditProfile.observe(this, Observer {
             it.getIfNotHandled()?.run {
-                activity?.let { activity ->
-                    startActivity(EditProfileActivity.getIntent(activity))
+                this[EditProfileActivity.EXTRA_CURRENT_USER]?.let { currentUser ->
+                    activity?.let { activity ->
+                        startActivity(EditProfileActivity.getIntent(activity, currentUser))
+                    }
                 }
             }
         })

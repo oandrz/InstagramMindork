@@ -8,6 +8,7 @@ import com.mindorks.bootcamp.instagram.data.model.Avatar
 import com.mindorks.bootcamp.instagram.data.remote.response.GeneralResponse
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseViewModel
+import com.mindorks.bootcamp.instagram.ui.editprofile.EditProfileActivity
 import com.mindorks.bootcamp.instagram.utils.common.Event
 import com.mindorks.bootcamp.instagram.utils.common.GlideHelper
 import com.mindorks.bootcamp.instagram.utils.common.Resource
@@ -28,7 +29,7 @@ class ProfileViewModel(
 
     private val profileLiveData: MutableLiveData<Resource<Avatar>> = MutableLiveData()
 
-    val launchEditProfile: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
+    val launchEditProfile: MutableLiveData<Event<Map<String, Avatar>>> = MutableLiveData()
     val launchLogin: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
     val isLoading: MutableLiveData<Boolean> = MutableLiveData()
 
@@ -59,7 +60,10 @@ class ProfileViewModel(
     }
 
     fun handleEditProfileClicked() {
-        launchEditProfile.postValue(Event(emptyMap()))
+        profileLiveData.value?.data?.let {
+            launchEditProfile.postValue(Event(mutableMapOf(
+                Pair(EditProfileActivity.EXTRA_CURRENT_USER, it))))
+        }
     }
 
     override fun onCreate() {

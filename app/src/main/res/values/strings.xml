@@ -60,4 +60,5 @@
     <string name="editprofile_email_hint">Email Address</string>
     <string name="editprofile_name_text">Name</string>
     <string name="editprofile_title">Edit Profile</string>
+    <string name="editprofile_empty_field">Need to fill at least one field</string>
 </resources>
