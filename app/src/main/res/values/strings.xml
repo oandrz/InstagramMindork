@@ -57,4 +57,5 @@
     <string name="editprofile_bio_text">Bio</string>
     <string name="editprofile_private_information_text">Private information</string>
     <string name="editprofile_email_hint">Email Address</string>
+    <string name="editprofile_name_text">Name</string>
 </resources>

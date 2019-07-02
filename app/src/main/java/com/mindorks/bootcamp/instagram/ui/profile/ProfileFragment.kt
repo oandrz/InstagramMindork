@@ -12,6 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.di.component.FragmentComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseFragment
+import com.mindorks.bootcamp.instagram.ui.editprofile.EditProfileActivity
 import com.mindorks.bootcamp.instagram.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.item_feed.view.*
@@ -31,7 +32,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
         (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
 
         btn_edit_profile.setOnClickListener {
-
+            viewModel.handleEditProfileClicked()
         }
     }
 
@@ -59,9 +60,17 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
 
         viewModel.launchLogin.observe(this, Observer {
             it.getIfNotHandled()?.run {
-                activity?.let {
-                    startActivity(LoginActivity.getIntent(it))
-                    it.finish()
+                activity?.let { activity ->
+                    startActivity(LoginActivity.getIntent(activity))
+                    activity.finish()
+                }
+            }
+        })
+
+        viewModel.launchEditProfile.observe(this, Observer {
+            it.getIfNotHandled()?.run {
+                activity?.let { activity ->
+                    startActivity(EditProfileActivity.getIntent(activity))
                 }
             }
         })

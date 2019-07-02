@@ -10,6 +10,7 @@ import com.mindorks.bootcamp.instagram.ui.base.BaseFragment
 import com.mindorks.bootcamp.instagram.ui.create.CreateViewModel
 import com.mindorks.bootcamp.instagram.ui.dummies.DummiesAdapter
 import com.mindorks.bootcamp.instagram.ui.dummies.DummiesViewModel
+import com.mindorks.bootcamp.instagram.ui.editprofile.EditProfileViewModel
 import com.mindorks.bootcamp.instagram.ui.feed.FeedAdapter
 import com.mindorks.bootcamp.instagram.ui.feed.FeedViewModel
 import com.mindorks.bootcamp.instagram.ui.profile.ProfileViewModel

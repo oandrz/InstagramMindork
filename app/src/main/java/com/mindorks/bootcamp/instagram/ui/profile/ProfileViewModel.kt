@@ -28,6 +28,7 @@ class ProfileViewModel(
 
     private val profileLiveData: MutableLiveData<Resource<Avatar>> = MutableLiveData()
 
+    val launchEditProfile: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
     val launchLogin: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
     val isLoading: MutableLiveData<Boolean> = MutableLiveData()
 
@@ -55,6 +56,10 @@ class ProfileViewModel(
                     }
                 )
         )
+    }
+
+    fun handleEditProfileClicked() {
+        launchEditProfile.postValue(Event(emptyMap()))
     }
 
     override fun onCreate() {
