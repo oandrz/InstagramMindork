@@ -7,9 +7,8 @@ import com.mindorks.bootcamp.instagram.data.model.User
 import com.mindorks.bootcamp.instagram.data.remote.NetworkService
 import com.mindorks.bootcamp.instagram.data.remote.request.LoginRequest
 import com.mindorks.bootcamp.instagram.data.remote.request.SignupRequest
+import com.mindorks.bootcamp.instagram.data.remote.request.UpdateProfileRequest
 import com.mindorks.bootcamp.instagram.data.remote.response.GeneralResponse
-import com.mindorks.bootcamp.instagram.data.remote.response.MyPostListResponse
-import com.mindorks.bootcamp.instagram.data.remote.response.MyProfileResponse
 import com.mindorks.bootcamp.instagram.data.remote.response.UserResponse
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
@@ -58,6 +57,17 @@ class UserRepository @Inject constructor(
         networkService
             .doSignUpCall(SignupRequest(email, password, name))
             .map { mapUserResponseAndSaveIntoPref(it) }
+
+    fun updateProfileInfo(
+        name: String,
+        tagLine: String,
+        profilePicUrl: String
+    ): Single<GeneralResponse> =
+        networkService.updateProfileInfo(
+            UpdateProfileRequest(name, profilePicUrl, tagLine),
+            userId = userPreferences.getUserId()!!,
+            accessToken = userPreferences.getAccessToken()!!
+        )
 
     fun fetchMyProfile(): Single<Avatar> =
         Single.zip(

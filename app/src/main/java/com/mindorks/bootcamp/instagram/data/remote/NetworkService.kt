@@ -1,9 +1,6 @@
 package com.mindorks.bootcamp.instagram.data.remote
 
-import com.mindorks.bootcamp.instagram.data.remote.request.DummyRequest
-import com.mindorks.bootcamp.instagram.data.remote.request.LikeUnlikeBodyRequest
-import com.mindorks.bootcamp.instagram.data.remote.request.LoginRequest
-import com.mindorks.bootcamp.instagram.data.remote.request.SignupRequest
+import com.mindorks.bootcamp.instagram.data.remote.request.*
 import com.mindorks.bootcamp.instagram.data.remote.response.*
 import io.reactivex.Single
 import retrofit2.http.*
@@ -69,6 +66,14 @@ interface NetworkService {
     @PUT(Endpoints.UNLIKE_FEED)
     fun unLikeFeed(
         @Body request: LikeUnlikeBodyRequest,
+        @Header(Networking.HEADER_USER_ID) userId: String,
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+    ): Single<GeneralResponse>
+
+    @PUT(Endpoints.MY_PROFILE)
+    fun updateProfileInfo(
+        @Body request: UpdateProfileRequest,
         @Header(Networking.HEADER_USER_ID) userId: String,
         @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
         @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
