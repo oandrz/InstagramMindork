@@ -7,10 +7,7 @@ import com.bumptech.glide.load.model.GlideUrl
 import com.mindorks.bootcamp.instagram.data.model.Avatar
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseViewModel
-import com.mindorks.bootcamp.instagram.utils.common.GlideHelper
-import com.mindorks.bootcamp.instagram.utils.common.Status
-import com.mindorks.bootcamp.instagram.utils.common.Validation
-import com.mindorks.bootcamp.instagram.utils.common.Validator
+import com.mindorks.bootcamp.instagram.utils.common.*
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
@@ -29,6 +26,7 @@ class EditProfileViewModel(
     private val validationList: MutableLiveData<List<Validation>> = MutableLiveData()
     private val profileLiveData: MutableLiveData<Avatar> = MutableLiveData()
 
+    val launchHomeActivity: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
     val email: MutableLiveData<String?> = MutableLiveData()
     val isAllFieldEmpty: MutableLiveData<Boolean> = MutableLiveData()
     val isLoading: MutableLiveData<Boolean> = MutableLiveData()
@@ -49,13 +47,38 @@ class EditProfileViewModel(
         }
     }
 
-    fun updateProfileInformation(name: String, email: String, tagline: String) {
-        val validations = Validator.validateUpdateProfileField(name, tagline, email)
+    private fun uploadImage() {
+
+    }
+
+    fun updateProfileInformation(name: String, imageUrl: String, tagLine: String) {
+        val validations = Validator.validateUpdateProfileField(name, tagLine, imageUrl)
         validationList.postValue(validations)
 
         if (validations.isNotEmpty()) {
             val errorValidations = validations.filter { it.resource.status == Status.ERROR }
-            isAllFieldEmpty.postValue(errorValidations.size == validations.size)
+            if (errorValidations.size != validations.size) {
+                isAllFieldEmpty.postValue(false)
+                if (checkInternetConnectionWithMessage()) {
+                    isLoading.postValue(true)
+                    compositeDisposable.add(
+                        userRepository.updateProfileInfo(name, tagLine, imageUrl)
+                            .subscribeOn(schedulerProvider.io())
+                            .subscribe(
+                                {
+                                    isLoading.postValue(false)
+                                    launchHomeActivity.postValue(Event(emptyMap()))
+                                },
+                                {
+                                    isLoading.postValue(false)
+                                    handleNetworkError(it)
+                                }
+                            )
+                    )
+                }
+            } else {
+                isAllFieldEmpty.postValue(true)
+            }
         }
     }
 }

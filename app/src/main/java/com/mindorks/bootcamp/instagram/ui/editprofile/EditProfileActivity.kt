@@ -15,10 +15,12 @@ import com.mindorks.bootcamp.instagram.di.component.ActivityComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseActivity
 import com.mindorks.bootcamp.instagram.utils.display.Toaster
 import kotlinx.android.synthetic.main.activity_edit_profile.*
-import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
+
+    private lateinit var menu: Menu
+
     override fun provideLayoutId(): Int = R.layout.activity_edit_profile
 
     override fun injectDependencies(activityComponent: ActivityComponent) {
@@ -71,16 +73,22 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
         })
 
         viewModel.isLoading.observe(this, Observer {
-            if (it) {
+            menu.findItem(R.id.menu_confirm).apply {
+                isEnabled = !it
+            }
+        })
 
-            } else {
-
+        viewModel.launchHomeActivity.observe(this, Observer {
+            Toaster.show(this, getString(R.string.editprofile_success_text))
+            it.getIfNotHandled()?.let {
+                finish()
             }
         })
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.navigation_edit_profile, menu)
+        this.menu = menu
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -89,7 +97,7 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
             R.id.menu_confirm -> {
                 viewModel.updateProfileInformation(
                     et_name.text.toString(),
-                    et_email.text.toString(),
+                    "",
                     et_bio.text.toString()
                 )
                 true
