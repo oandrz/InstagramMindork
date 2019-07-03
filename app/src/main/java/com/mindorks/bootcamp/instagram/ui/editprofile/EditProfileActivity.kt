@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -76,6 +77,7 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
             menu.findItem(R.id.menu_confirm).apply {
                 isEnabled = !it
             }
+            progress_bar.visibility = if (it) View.VISIBLE else View.GONE
         })
 
         viewModel.launchHomeActivity.observe(this, Observer {
