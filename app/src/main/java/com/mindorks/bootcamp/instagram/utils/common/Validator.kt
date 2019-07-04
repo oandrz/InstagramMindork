@@ -80,20 +80,13 @@ object Validator {
         }
 
 
-    fun validateUpdateProfileField(name: String?, tagline: String?, email: String?): List<Validation> =
+    fun validateUpdateProfileField(name: String?, tagline: String?): List<Validation> =
         ArrayList<Validation>().apply {
             when {
                 name.isNullOrBlank() ->
                     add(Validation(Validation.Field.NAME, Resource.error()))
                 else ->
                     add(Validation(Validation.Field.NAME, Resource.success()))
-            }
-
-            when {
-                email.isNullOrBlank() ->
-                    add(Validation(Validation.Field.EMAIL, Resource.error()))
-                else ->
-                    add(Validation(Validation.Field.EMAIL, Resource.success()))
             }
 
             when {

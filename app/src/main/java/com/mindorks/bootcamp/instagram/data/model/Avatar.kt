@@ -16,7 +16,7 @@ data class Avatar(
 
     @Expose
     @SerializedName("profilePicUrl")
-    val profilePictureUrl: String?,
+    var profilePictureUrl: String?,
 
     @Expose
     @SerializedName("tagline")

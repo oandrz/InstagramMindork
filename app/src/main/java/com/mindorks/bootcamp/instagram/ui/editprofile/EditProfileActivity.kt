@@ -9,6 +9,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.request.RequestOptions
 import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.data.model.Avatar
@@ -17,6 +18,7 @@ import com.mindorks.bootcamp.instagram.ui.base.BaseActivity
 import com.mindorks.bootcamp.instagram.utils.display.Toaster
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.toolbar.*
+import java.io.FileNotFoundException
 
 class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
 
@@ -43,6 +45,15 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.ic_cancel)
         }
+
+        tv_placeholder.setOnClickListener {
+            Intent(Intent.ACTION_PICK)
+                .apply {
+                    type = "image/*"
+                }.run {
+                    startActivityForResult(this, RESULT_GALLERY)
+                }
+        }
     }
 
     override fun setupObservers() {
@@ -60,14 +71,17 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
             }
         })
 
-        viewModel.getProfilePicture().observe(this, Observer {
+        val renderPhotoObserver = Observer<GlideUrl> {
             Glide.with(iv_placeholder)
                 .load(it)
                 .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
                 .apply(RequestOptions.circleCropTransform())
                 .apply(RequestOptions.placeholderOf(R.drawable.ic_profile_add_pic))
                 .into(iv_placeholder)
-        })
+        }
+
+        viewModel.getProfilePicture().observe(this, renderPhotoObserver)
+        viewModel.getUploadedPhoto().observe(this, renderPhotoObserver)
 
         viewModel.email.observe(this, Observer {
             et_email.setText(it ?: "")
@@ -88,6 +102,26 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
         })
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intent)
+        if (resultCode == RESULT_OK) {
+            when (requestCode) {
+                RESULT_GALLERY -> {
+                    try {
+                        intent?.data?.let {
+                            contentResolver?.openInputStream(it)?.run {
+                                viewModel.onGalleryImageSelected(this)
+                            }
+                        } ?: showMessage(getString(R.string.editprofile_select_image))
+                    } catch (e: FileNotFoundException) {
+                        e.printStackTrace()
+                        showMessage(getString(R.string.editprofile_select_image))
+                    }
+                }
+            }
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.navigation_edit_profile, menu)
         this.menu = menu
@@ -99,7 +133,6 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
             R.id.menu_confirm -> {
                 viewModel.updateProfileInformation(
                     et_name.text.toString(),
-                    "",
                     et_bio.text.toString()
                 )
                 true
@@ -111,6 +144,7 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
 
     companion object {
         const val EXTRA_CURRENT_USER: String = ""
+        const val RESULT_GALLERY: Int = 101
 
         fun getIntent(context: Context, currentUser: Avatar): Intent =
             Intent(context, EditProfileActivity::class.java).apply {

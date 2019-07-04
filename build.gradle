@@ -76,4 +76,7 @@ ext {
 
     // Lottie
     lottieVersion = '3.0.1'
+
+    // Paracamera
+    paracameraVersion = '0.2.2'
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.bumptech.glide.load.model.GlideUrl
 import com.mindorks.bootcamp.instagram.data.model.Avatar
+import com.mindorks.bootcamp.instagram.data.remote.Networking
 import com.mindorks.bootcamp.instagram.data.remote.response.GeneralResponse
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseViewModel
@@ -24,8 +25,11 @@ class ProfileViewModel(
     private val userRepository: UserRepository
 ) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
 
-    @Inject
-    lateinit var glideHeader: Map<String, String>
+    private var glideHeader: Map<String, String> = mutableMapOf(
+        (Networking.HEADER_USER_ID to (userRepository.getCurrentUser()?.id ?: "")),
+        (Networking.HEADER_ACCESS_TOKEN to (userRepository.getCurrentUser()?.accessToken ?: "")),
+        (Networking.HEADER_API_KEY to Networking.API_KEY)
+    )
 
     private val profileLiveData: MutableLiveData<Resource<Avatar>> = MutableLiveData()
 

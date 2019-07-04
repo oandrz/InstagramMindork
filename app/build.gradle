@@ -98,6 +98,9 @@ dependencies {
     // Debugging
     debugImplementation "com.amitshekhar.android:debug-db:$debug_db_version"
 
+    // Camera
+    implementation "com.mindorks:paracamera:$paracameraVersion"
+
     // Local Unit tests
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.mockito:mockito-core:$mockito_version"
