@@ -74,7 +74,7 @@ class ProfileViewModel(
         fetchMyProfile()
     }
 
-    private fun fetchMyProfile() {
+    fun fetchMyProfile() {
         isLoading.postValue(true)
         compositeDisposable.add(
             userRepository.fetchMyProfile()

@@ -1,5 +1,7 @@
 package com.mindorks.bootcamp.instagram.ui.profile
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -71,7 +73,10 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
             it.getIfNotHandled()?.run {
                 this[EditProfileActivity.EXTRA_CURRENT_USER]?.let { currentUser ->
                     activity?.let { activity ->
-                        startActivity(EditProfileActivity.getIntent(activity, currentUser))
+                        startActivityForResult(
+                            EditProfileActivity.getIntent(activity, currentUser),
+                            EDIT_PROFILE_REQUEST_CODE
+                        )
                     }
                 }
             }
@@ -81,6 +86,13 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater?.inflate(R.menu.profile_menu, menu)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == EDIT_PROFILE_REQUEST_CODE && resultCode == RESULT_OK) {
+            viewModel.fetchMyProfile()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -96,6 +108,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
 
     companion object {
         const val TAG = "profile"
+        private const val EDIT_PROFILE_REQUEST_CODE = 101
 
         @JvmStatic
         fun newInstance(): ProfileFragment = ProfileFragment()

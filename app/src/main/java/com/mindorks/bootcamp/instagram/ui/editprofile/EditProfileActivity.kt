@@ -15,14 +15,19 @@ import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.data.model.Avatar
 import com.mindorks.bootcamp.instagram.di.component.ActivityComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseActivity
+import com.mindorks.bootcamp.instagram.ui.home.HomeSharedViewModel
 import com.mindorks.bootcamp.instagram.utils.display.Toaster
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.io.FileNotFoundException
+import javax.inject.Inject
 
 class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
 
     private lateinit var menu: Menu
+
+    @Inject
+    lateinit var homeSharedViewModel: HomeSharedViewModel
 
     override fun provideLayoutId(): Int = R.layout.activity_edit_profile
 
@@ -97,6 +102,7 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
         viewModel.launchHomeActivity.observe(this, Observer {
             Toaster.show(this, getString(R.string.editprofile_success_text))
             it.getIfNotHandled()?.let {
+                setResult(RESULT_OK)
                 finish()
             }
         })

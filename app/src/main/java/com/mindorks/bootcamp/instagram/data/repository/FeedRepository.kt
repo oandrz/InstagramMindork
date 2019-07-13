@@ -17,7 +17,7 @@ class FeedRepository @Inject constructor(
 ) {
 
     private var accessToken: String = userRepository.getCurrentUser()?.accessToken ?: ""
-    private var user: User? = userRepository.getCurrentUser()
+    private var user: User = userRepository.getCurrentUser()!!
     private var userId: String = userRepository.getCurrentUser()?.id ?: ""
 
     fun fetchPost(firstPostId: String?, lastPostId: String?): Single<List<Feed>> =
@@ -75,7 +75,7 @@ class FeedRepository @Inject constructor(
                 it.data.imageUrl,
                 it.data.imageWidth,
                 it.data.imageHeight,
-                Avatar(user?.id ?: "", user?.name ?: "", user?.profilePicUrl, null, 0),
+                Avatar(user.id, user.name, user.profilePicUrl, null, 0),
                 mutableListOf(),
                 it.data.createdAt
             )
