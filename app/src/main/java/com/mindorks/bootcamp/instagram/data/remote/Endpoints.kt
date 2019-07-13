@@ -11,6 +11,7 @@ object Endpoints {
     const val MY_FEED = "instagram/post/my"
     const val FEED_DETAIL = "instagram/post/id/{postId}"
     const val MY_PROFILE = "me"
+    const val CREATE_FEED = "instagram/post"
     const val LIKE_FEED = "instagram/post/like"
     const val UNLIKE_FEED = "instagram/post/unlike"
     const val UPLOAD_IMAGE = "image"

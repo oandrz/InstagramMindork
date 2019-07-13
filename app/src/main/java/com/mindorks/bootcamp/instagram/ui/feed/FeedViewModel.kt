@@ -24,12 +24,16 @@ class FeedViewModel(
 
     val isRefresh: MutableLiveData<Boolean> = MutableLiveData()
     val loading: MutableLiveData<Boolean> = MutableLiveData()
+    val refreshFeed: MutableLiveData<Resource<List<Feed>>> = MutableLiveData()
     private val feedLiveData: MutableLiveData<Resource<List<Feed>>> = MutableLiveData()
 
     fun getFeeds(): LiveData<List<Feed>> = Transformations.map(feedLiveData) { it.data }
 
     fun isFetchingFeed(): LiveData<Boolean> =
             Transformations.map(feedLiveData) { it.status == Status.LOADING }
+
+    var firstId: String? = null
+    var lastId: String? = null
 
     init {
         fetchFeed()
@@ -41,6 +45,8 @@ class FeedViewModel(
     }
 
     fun refresh() {
+        firstId = null
+        lastId = null
         feedLiveData.postValue(Resource.loading())
         isRefresh.postValue(true)
         feedDataSource.clear()
@@ -66,6 +72,10 @@ class FeedViewModel(
                 .subscribe(
                     {
                         feedDataSource.addAll(it)
+
+                        firstId = feedDataSource.maxBy { feed -> feed.createdAt.time }?.id
+                        lastId = feedDataSource.minBy { feed -> feed.createdAt.time }?.id
+
                         loading.postValue(false)
                         feedLiveData.postValue(Resource.success(it))
                     },
@@ -78,12 +88,15 @@ class FeedViewModel(
     }
 
     private fun loadMorePosts() {
-        val firstPostId = if (feedDataSource.isNotEmpty()) feedDataSource[0].id else null
-        val lastPostId = if (feedDataSource.size > 1) feedDataSource[feedDataSource.size - 1].id else null
-        if (checkInternetConnectionWithMessage()) paginator.onNext(Pair(firstPostId, lastPostId))
+        if (checkInternetConnectionWithMessage()) paginator.onNext(Pair(firstId, lastId))
     }
 
     fun onLoadMore() {
         if (loading.value != null && loading.value == false) loadMorePosts()
+    }
+
+    fun onNewPost(feed: Feed) {
+        feedDataSource.add(0, feed)
+        refreshFeed.postValue(Resource.success(mutableListOf<Feed>().apply { addAll(feedDataSource) }))
     }
 }

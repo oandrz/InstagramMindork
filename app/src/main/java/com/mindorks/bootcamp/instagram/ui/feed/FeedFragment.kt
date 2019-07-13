@@ -10,12 +10,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.di.component.FragmentComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseFragment
+import com.mindorks.bootcamp.instagram.ui.home.HomeSharedViewModel
 import kotlinx.android.synthetic.main.fragment_feed.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import javax.inject.Inject
 
 class FeedFragment : BaseFragment<FeedViewModel>() {
+
+    @Inject
+    lateinit var homeSharedViewModel: HomeSharedViewModel
 
     @Inject
     lateinit var linearLayoutManager: LinearLayoutManager
@@ -54,6 +58,17 @@ class FeedFragment : BaseFragment<FeedViewModel>() {
 
         viewModel.loading.observe(this, Observer {
             loadmore_progress.visibility = if (it) View.VISIBLE else View.GONE
+        })
+
+        homeSharedViewModel.newPost.observe(this, Observer {
+            it.getIfNotHandled()?.run { viewModel.onNewPost(this) }
+        })
+
+        viewModel.refreshFeed.observe(this, Observer {
+            it.data?.run {
+                feedAdapter.updateList(this)
+                rv_feed.scrollToPosition(0)
+            }
         })
     }
 

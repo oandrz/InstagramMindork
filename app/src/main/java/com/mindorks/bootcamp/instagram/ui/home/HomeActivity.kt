@@ -13,8 +13,12 @@ import com.mindorks.bootcamp.instagram.ui.feed.FeedFragment
 import com.mindorks.bootcamp.instagram.ui.profile.ProfileFragment
 import kotlinx.android.synthetic.main.activity_home.*
 import java.lang.IllegalStateException
+import javax.inject.Inject
 
 class HomeActivity : BaseActivity<HomeViewModel>() {
+
+    @Inject
+    lateinit var homeSharedViewModel: HomeSharedViewModel
 
     private var activeFragment: Fragment? = null
 
@@ -65,6 +69,10 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
             it.getIfNotHandled()?.run {
                 addFragment(ProfileFragment.TAG)
             }
+        })
+
+        homeSharedViewModel.homeRedirection.observe(this, Observer {
+            it.getIfNotHandled()?.run { navigation.selectedItemId = R.id.menu_feed }
         })
     }
 

@@ -96,6 +96,12 @@ abstract class BaseAdapter<T : Any, VH : BaseItemViewHolder<T, out BaseItemViewM
     }
 
     fun clearAllData() {
-        this.dataList.clear()
+        dataList.clear()
+    }
+
+    fun updateList(list: List<T>) {
+        dataList.clear()
+        dataList.addAll(list)
+        notifyDataSetChanged()
     }
 }

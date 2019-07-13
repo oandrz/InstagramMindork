@@ -11,11 +11,13 @@ import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseItemViewModel
 import com.mindorks.bootcamp.instagram.utils.common.Image
 import com.mindorks.bootcamp.instagram.utils.common.Resource
+import com.mindorks.bootcamp.instagram.utils.common.TimeUtils
 import com.mindorks.bootcamp.instagram.utils.display.ScreenUtils
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
+import java.util.*
 import javax.inject.Inject
 
 class FeedItemViewModel @Inject constructor(
@@ -45,7 +47,7 @@ class FeedItemViewModel @Inject constructor(
         )
     }
     val likesCount: LiveData<Int> = Transformations.map(data) { it.likedBy?.count() }
-    val timeStamp: LiveData<String> = Transformations.map(data) { it.createdAt }
+    val timeStamp: LiveData<String> = Transformations.map(data) { TimeUtils.getTimeAgo(it.createdAt) }
     val hasLiked: LiveData<Boolean> = Transformations.map(data) {
         it.likedBy?.find { avatar -> avatar.id == currentUser.id } != null
     }

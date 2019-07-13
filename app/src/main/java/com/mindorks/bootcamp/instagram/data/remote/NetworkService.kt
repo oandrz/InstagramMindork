@@ -110,4 +110,12 @@ interface NetworkService {
         @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
         @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
     ): Single<ImageResponse>
+
+    @POST(Endpoints.CREATE_FEED)
+    fun createFeed(
+        @Body request: CreateFeedRequest,
+        @Header(Networking.HEADER_USER_ID) userId: String,
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+    ): Single<CreateFeedResponse>
 }

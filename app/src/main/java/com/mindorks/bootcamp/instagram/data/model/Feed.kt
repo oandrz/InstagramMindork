@@ -2,6 +2,7 @@ package com.mindorks.bootcamp.instagram.data.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class Feed(
     @Expose
@@ -30,5 +31,5 @@ data class Feed(
 
     @Expose
     @SerializedName("createdAt")
-    val createdAt: String
+    val createdAt: Date
 )

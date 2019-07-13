@@ -67,7 +67,13 @@ class UserRepository @Inject constructor(
             UpdateProfileRequest(name, profilePicUrl, tagLine),
             userId = userPreferences.getUserId()!!,
             accessToken = userPreferences.getAccessToken()!!
-        )
+        ).map {
+            val pastUser: User = getCurrentUser()!!
+            val newUser = User(pastUser.id, name, pastUser.email, pastUser.accessToken, profilePicUrl)
+            removeCurrentUser()
+            saveCurrentUser(newUser)
+            it
+        }
 
     fun fetchMyProfile(): Single<Avatar> =
         Single.zip(

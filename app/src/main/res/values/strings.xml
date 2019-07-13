@@ -63,7 +63,10 @@
     <string name="editprofile_empty_field">Need to fill at least one field</string>
     <string name="editprofile_success_text">Success update your information</string>
     <string name="editprofile_select_image">Please try again</string>
+    <string name="todo">TODO</string>
+
+    <!--Create Post-->
+    <string name="createPost_tryAgain_text">Please try again</string>
     <string name="createPost_gallery_text">Gallery</string>
     <string name="createPost_camera_text">Camera</string>
-    <string name="todo">TODO</string>
 </resources>

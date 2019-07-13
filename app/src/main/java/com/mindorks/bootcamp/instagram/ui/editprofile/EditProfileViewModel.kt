@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.bumptech.glide.load.model.GlideUrl
+import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.data.model.Avatar
 import com.mindorks.bootcamp.instagram.data.remote.Networking
 import com.mindorks.bootcamp.instagram.data.repository.PhotoRepository
@@ -78,11 +79,11 @@ class EditProfileViewModel(
                         if (it != null) {
                             uploadPhoto(it)
                         } else {
-                            ///TODO: Show error toast
+                            messageStringId.postValue(Resource.error(R.string.createPost_tryAgain_text))
                         }
                     },
                     {
-                        ///TODO: Show error toast
+                        messageStringId.postValue(Resource.error(R.string.createPost_tryAgain_text))
                     }
                 )
         )

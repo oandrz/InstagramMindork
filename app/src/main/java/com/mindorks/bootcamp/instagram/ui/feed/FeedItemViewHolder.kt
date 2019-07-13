@@ -13,8 +13,6 @@ import com.mindorks.bootcamp.instagram.data.model.Feed
 import com.mindorks.bootcamp.instagram.di.component.ViewHolderComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseItemViewHolder
 import com.mindorks.bootcamp.instagram.utils.common.GlideHelper
-import com.mindorks.bootcamp.instagram.utils.common.TimeUtils
-import com.mindorks.bootcamp.instagram.utils.common.getDateWithServerTimeStamp
 import kotlinx.android.synthetic.main.item_feed.view.*
 import javax.inject.Inject
 
@@ -71,7 +69,7 @@ class FeedItemViewHolder(parent: ViewGroup) :
         })
 
         viewModel.timeStamp.observe(this, Observer {
-            itemView.tv_time.text = TimeUtils.getTimeAgo(it.getDateWithServerTimeStamp())
+            itemView.tv_time.text = it
         })
 
         viewModel.hasLiked.observe(this, Observer {
